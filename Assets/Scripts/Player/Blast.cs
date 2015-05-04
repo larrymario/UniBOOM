@@ -2,6 +2,7 @@
 using System.Collections;
 using Uniboom.Director;
 using Uniboom.Stage;
+using Uniboom.Enemy;
 
 namespace Uniboom.Player { 
 
@@ -15,9 +16,8 @@ namespace Uniboom.Player {
         private Transform currentRoom;
         private int remainingWave;
         private int spreadDelay;
-        private int spreadDirection;  //0:None 1:PX 2:NX 3:PZ 4:NZ
+        private int spreadDirection;  //0:None 1:PX 2:NX 4:PZ 8:NZ
         private int timer;
-
 
         public void setSpreadDirection(int direction) {
             this.spreadDirection = direction;
@@ -31,11 +31,8 @@ namespace Uniboom.Player {
             this.remainingWave = wave;
         }
 
-        void Awake() {
-            
-        }
-
         void Start() {
+            print(remainingWave.ToString() + spreadDirection.ToString());
             timer = 0;
             currentRoom = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
 
@@ -56,12 +53,22 @@ namespace Uniboom.Player {
         }
 
         void OnTriggerEnter(Collider other) {
+            print(other.transform.name);
             if (other.tag == "Brick") {
                 other.GetComponent<Brick>().Shatter();
             }
+            else if (other.tag == "Player") {
+                Transform unitychan = other.transform;
+                while (unitychan.GetComponent<Unitychan>() == null) {
+                    unitychan = unitychan.parent;
+                }
+                unitychan.GetComponent<Unitychan>().GetDamaged(false);
+            }
+            else if (other.tag == "Enemy") {
+                other.GetComponent<EnemyDummy>().GetDamaged();
+            }
         }
-
-
+        
         private void CheckSpaceStatus() {
             
             int roomSize = currentRoom.GetComponent<Room>().size;
@@ -113,10 +120,10 @@ namespace Uniboom.Player {
                     case 2:
                         spreadOffset = new Vector3(-1f, 0f, 0f);
                         break;
-                    case 3:
+                    case 4:
                         spreadOffset = new Vector3(0f, 0f, 1f);
                         break;
-                    case 4:
+                    case 8:
                         spreadOffset = new Vector3(0f, 0f, -1f);
                         break;
                     default:
