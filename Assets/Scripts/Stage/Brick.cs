@@ -12,7 +12,6 @@ namespace Uniboom.Stage {
 
 
         public void Shatter() {
-            //GetComponent<BoxCollider>().isTrigger = false;
             Instantiate(wreck, transform.position, transform.rotation);
             Destroy(gameObject);
         }
