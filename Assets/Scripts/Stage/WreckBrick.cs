@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BrickWreck : MonoBehaviour {
+public class WreckBrick : MonoBehaviour {
 
     public int disappearTime;
     public float deadSpeed;

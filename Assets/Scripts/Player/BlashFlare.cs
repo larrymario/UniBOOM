@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Uniboom.Player {
 
-    public class BlastFlare : MonoBehaviour {
+    public class BlashFlare : MonoBehaviour {
 
         public int[] timeNodes;
 
