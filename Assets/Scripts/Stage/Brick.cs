@@ -8,7 +8,7 @@ namespace Uniboom.Stage {
         public float existProb;
         public Transform wreck;
 
-        private Transform room;
+        private Transform currentRoom;
 
 
         public void Shatter() {
@@ -17,7 +17,7 @@ namespace Uniboom.Stage {
         }
 
         void Awake() {
-            room = transform.parent.parent;
+            currentRoom = transform.parent.parent;
         }
 
         void Start() {
@@ -27,7 +27,7 @@ namespace Uniboom.Stage {
                 Destroy(gameObject);
             }
             else {
-                room.GetComponent<Room>().SetBlock((int)transform.localPosition.x, (int)transform.localPosition.z, 2);
+                currentRoom.GetComponent<Room>().SetBlock((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
             }
         }
 

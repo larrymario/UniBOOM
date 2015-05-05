@@ -37,7 +37,7 @@ namespace Uniboom.Enemy {
                 while (unitychan.GetComponent<Unitychan>() == null) {
                     unitychan = unitychan.parent;
                 }
-                unitychan.GetComponent<Unitychan>().GetDamaged(false);
+                unitychan.GetComponent<Unitychan>().GetDamaged(false, 2);
             }
         }
 

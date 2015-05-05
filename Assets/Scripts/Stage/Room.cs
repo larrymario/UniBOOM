@@ -9,16 +9,15 @@ namespace Uniboom.Stage {
 
         private int sizeX;
         private int sizeY;
-        public List<int> blockMat; //0:Nothing 1:Block 2:Brick
+        private List<int> blockMat; //0:Nothing 1:Block 2:Brick
+        private List<Transform> spaceMat;
 
-        public int GetBlock(int x, int y) {
-            //Hardcore for now
-            return blockMat[sizeX * x + y];
+        public Transform GetBlock(int x, int y) {
+            return spaceMat[sizeX * x + y];
         }
 
-        public void SetBlock(int x, int y, int value) {
-            //Hardcore for now
-            blockMat[sizeX * x + y] = value;
+        public void SetBlock(int x, int y, Transform obj) {
+            spaceMat[sizeX * x + y] = obj;
         }
 
         public int GetSize() {
@@ -26,11 +25,22 @@ namespace Uniboom.Stage {
         }
 
         void Awake() {
+            InitializeMat();
             ReadRoomProperty();
         }
 
+        private void InitializeMat() {
+            sizeX = size;
+            sizeY = size;
+            spaceMat = new List<Transform>(sizeX * sizeY);
+            for (int i = 0; i < sizeX; i++) {
+                for (int j = 0; j < sizeY; j++) {
+                    spaceMat.Add(null);
+                }
+            }
+        }
+
         private void ReadRoomProperty() {
-            //Hard code for test
             sizeX = size;
             sizeY = size;
             blockMat = new List<int>(sizeX * sizeY);

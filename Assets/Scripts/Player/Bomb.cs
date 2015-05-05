@@ -9,11 +9,11 @@ namespace Uniboom.Player {
 
         public Transform player;
         public Transform blast;
-        public Transform stageDirector;
         public int explodeDelay;
         public int remainingWave;
         public int spreadDelay;
 
+        public Transform stageDirector;
         private Transform currentRoom;
         private int timer;
 
@@ -31,10 +31,15 @@ namespace Uniboom.Player {
             Destroy(gameObject); 
         }
 
+        void Awake() {
+            stageDirector = GameObject.Find("Stage_Director").transform;
+            transform.parent = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
+            currentRoom = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
+        }
 
         void Start() {
             timer = 0;
-            currentRoom = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
+            currentRoom.GetComponent<Room>().SetBlock((int)transform.position.x, (int)transform.position.z, transform);
         }
 
         void FixedUpdate() {
@@ -77,8 +82,8 @@ namespace Uniboom.Player {
             blastClone.GetComponent<Blast>().setRemainingWave(wave - 1);
             blastClone.GetComponent<Blast>().setSpreadDelay(delay);
             blastClone.GetComponent<Blast>().setSpreadDirection(direction);
-            blastClone.GetComponent<Blast>().stageDirector = stageDirector;
-            blastClone.parent = currentRoom;
+            //blastClone.GetComponent<Blast>().stageDirector = stageDirector;
+            //blastClone.parent = currentRoom;
         }
 
 

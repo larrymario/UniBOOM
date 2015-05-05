@@ -6,7 +6,8 @@ namespace Uniboom.Director {
     public class StageDirector : MonoBehaviour {
 
         public Transform unitychan;
-        
+        public bool debug;
+
         private Transform currentRoom;
 
         public Transform GetCurrentRoom() {
@@ -20,6 +21,7 @@ namespace Uniboom.Director {
         void Awake() {
             Random.seed = (int)System.DateTime.Now.ToBinary();
 
+            unitychan = GameObject.Find("SD_unitychan_generic").transform;
             currentRoom = GameObject.Find("Room_1").transform;
         }
 

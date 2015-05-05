@@ -23,22 +23,26 @@ namespace Uniboom.Player {
         private bool dashInput;
 
         private VitalState vitalState;
-        private bool isDamaged;
+        private bool isCrushed;
+        private bool isHit;
         private bool isDying;
         private bool isInvincible;
         
         private int stateTimer;
         private int invinTimer;
+        private int freezeTime;
 
-        private int maxFireCount;
-        private int maxBombCount;
-        private int maxStaminaCount;
+        private int maxFire;
+        private int maxBomb;
+        private int maxStamina;
+        private int maxHP;
+
+        private int bombCount;
+        private int HPCount;
 
         private float forwardAngle;
         private float posX;
         private float posY;
-
-        private int bombCount;
 
         private Rigidbody ucRigidbody;
         private Animator ucAnimator;
@@ -59,16 +63,22 @@ namespace Uniboom.Player {
             bombCount++;
         }
 
-        public void LoadStatus() {
-            maxFireCount = 5;
-            maxBombCount = 30;
-            maxStaminaCount = 1;
-        }
-
-        public void GetDamaged(bool isForced) {
-            if (!isInvincible || isForced) { 
-                isDamaged = true;
+        public void GetDamaged(bool isForced, int damageType) { //damageType 1:Blast 2:Enemy
+            if (!isInvincible || isForced) {
+                HPCount--;
+                if (HPCount <= 0) {
+                    isDying = true;
+                }
+                else {
+                    if (damageType == 1) {
+                        isCrushed = true;
+                    }
+                    else if (damageType == 2) {
+                        isHit = true;
+                    }
+                }
             }
+            
         }
 
         public void Start() {
@@ -77,9 +87,12 @@ namespace Uniboom.Player {
             vitalState = VitalState.Normal;
 
             stateTimer = 0;
+            invinTimer = 0;
+            freezeTime = 80;
             ucRigidbody = GetComponent<Rigidbody>();
             ucAnimator = GetComponent<Animator>();
-            bombCount = maxBombCount;
+            bombCount = maxBomb;
+            HPCount = maxHP;
         }
 
         public void FixedUpdate() {
@@ -96,6 +109,13 @@ namespace Uniboom.Player {
                 }
             }
             
+        }
+
+        private void LoadStatus() {
+            maxFire = 5;
+            maxBomb = 30;
+            maxStamina = 30;
+            maxHP = 5;
         }
 
         private void GetInput() {
@@ -143,17 +163,21 @@ namespace Uniboom.Player {
             //Putting Bomb
             if (fireInputTrigger) {
                 if (bombCount > 0) {
-                    BombCountDown();
-                    Vector3 pos = new Vector3(Mathf.Floor(transform.position.x),
-                                              0,
-                                              Mathf.Floor(transform.position.z));
-                    Transform bombClone = (Transform)Instantiate(bomb, pos, Quaternion.Euler(Vector3.zero));
-                    bombClone.name = "Bomb_" + (int)transform.position.x + "_" + (int)transform.position.y;
-                    bombClone.GetComponent<Bomb>().player = transform;
-                    bombClone.GetComponent<Bomb>().remainingWave = maxFireCount;
-                    bombClone.GetComponent<Bomb>().stageDirector = stageDirector;
-                    bombClone.parent = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
-                    fireInputTrigger = false;
+                    Transform obj = stageDirector.GetComponent<StageDirector>().GetCurrentRoom().GetComponent<Room>().GetBlock(
+                        (int)Mathf.Floor(transform.position.x), (int)Mathf.Floor(transform.position.z));
+                    if (obj == null) {
+                        BombCountDown();
+                        Vector3 pos = new Vector3(Mathf.Floor(transform.position.x),
+                                                  0,
+                                                  Mathf.Floor(transform.position.z));
+                        Transform bombClone = (Transform)Instantiate(bomb, pos, Quaternion.Euler(Vector3.zero));
+                        bombClone.name = "Bomb_" + (int)transform.position.x + "_" + (int)transform.position.y;
+                        bombClone.GetComponent<Bomb>().player = transform;
+                        bombClone.GetComponent<Bomb>().remainingWave = maxFire;
+                        //bombClone.GetComponent<Bomb>().stageDirector = stageDirector;
+                        //bombClone.parent = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
+                        fireInputTrigger = false;
+                    }
                 }
             }
         }
@@ -161,20 +185,35 @@ namespace Uniboom.Player {
         private void ProcessState() {
             switch (vitalState) {
                 case VitalState.Normal:
-                    if (isDamaged) {
+                    if (isHit) {
                         stateTimer = 0;
                         isControllable = false;
                         vitalState = VitalState.Damaged;
-                        ucAnimator.SetTrigger("IsDamaged");
+                        ucAnimator.SetTrigger("IsHit");
+                        freezeTime = 80;
+                    }
+                    if (isCrushed) {
+                        stateTimer = 0;
+                        isControllable = false;
+                        vitalState = VitalState.Damaged;
+                        ucAnimator.SetTrigger("IsCrushed");
+                        freezeTime = 120;
+                    }
+                    if (isDying) {
+                        stateTimer = 0;
+                        isControllable = false;
+                        vitalState = VitalState.Dying;
+                        ucAnimator.SetTrigger("IsDying" + Random.Range(1, 3));
                     }
                     break;
                 case VitalState.Damaged:
-                    if (stateTimer == 80) {
+                    if (stateTimer == freezeTime) {
                         isControllable = true;
                         vitalState = VitalState.Normal;
                         invinTimer = 0;
                         isInvincible = true;
-                        isDamaged = false;
+                        isHit = false;
+                        isCrushed = false;
                     }
                     stateTimer++;
                     break;

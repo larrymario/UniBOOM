@@ -10,9 +10,9 @@ namespace Uniboom.Player {
 
         public Transform flare;
         public Transform blast;
-        public Transform stageDirector;
         public int[] flareCountArray;
 
+        private Transform stageDirector;
         private Transform currentRoom;
         private int remainingWave;
         private int spreadDelay;
@@ -31,10 +31,14 @@ namespace Uniboom.Player {
             this.remainingWave = wave;
         }
 
-        void Start() {
-            print(remainingWave.ToString() + spreadDirection.ToString());
-            timer = 0;
+        void Awake() {
+            stageDirector = GameObject.Find("Stage_Director").transform;
+            transform.parent = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
             currentRoom = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
+        }
+
+        void Start() {
+            timer = 0;
 
             CheckSpaceStatus();
         }
@@ -53,16 +57,12 @@ namespace Uniboom.Player {
         }
 
         void OnTriggerEnter(Collider other) {
-            print(other.transform.name);
-            if (other.tag == "Brick") {
-                other.GetComponent<Brick>().Shatter();
-            }
-            else if (other.tag == "Player") {
+            if (other.tag == "Player") {
                 Transform unitychan = other.transform;
                 while (unitychan.GetComponent<Unitychan>() == null) {
                     unitychan = unitychan.parent;
                 }
-                unitychan.GetComponent<Unitychan>().GetDamaged(false);
+                unitychan.GetComponent<Unitychan>().GetDamaged(false, 2);
             }
             else if (other.tag == "Enemy") {
                 other.GetComponent<EnemyDummy>().GetDamaged();
@@ -72,7 +72,7 @@ namespace Uniboom.Player {
         private void CheckSpaceStatus() {
             
             int roomSize = currentRoom.GetComponent<Room>().size;
-            int spaceType = 0;
+            Transform spaceObj = null;
             if (transform.localPosition.x < 0 ||
                 transform.localPosition.z < 0 ||
                 transform.localPosition.x >= roomSize ||
@@ -81,16 +81,27 @@ namespace Uniboom.Player {
                 Destroy(gameObject);
             }
             else {
-                spaceType = currentRoom.GetComponent<Room>().GetBlock((int)transform.localPosition.x, (int)transform.localPosition.z);
+                spaceObj = currentRoom.GetComponent<Room>().GetBlock((int)transform.localPosition.x, (int)transform.localPosition.z);
             }
-            if (spaceType == 1) {
-                //Spread to a block
-                Destroy(gameObject);
-            }
-            if (spaceType == 2) {
-                //Spread to a brick
-                remainingWave = 0;
-                currentRoom.GetComponent<Room>().SetBlock((int)transform.localPosition.x, (int)transform.localPosition.z, 0);
+            if (spaceObj != null) {
+                if (spaceObj.tag == "Block") {
+                    //Spread to a block
+                    Destroy(gameObject);
+                }
+                else if (spaceObj.tag == "Brick") {
+                    //Spread to a brick
+                    remainingWave = 0;
+                    currentRoom.GetComponent<Room>().SetBlock((int)transform.localPosition.x, (int)transform.localPosition.z, null);
+                    spaceObj.GetComponent<Brick>().Shatter();
+                }
+                else if (spaceObj.tag == "Bomb") {
+                    //Spread to a bomb
+                    if (spreadDirection != 0) {     //Ensure that the blast won't ignit the bomb itself again
+                        currentRoom.GetComponent<Room>().SetBlock((int)transform.localPosition.x, (int)transform.localPosition.z, null);
+                        spaceObj.GetComponent<Bomb>().Explode(spreadDirection);
+                        Destroy(gameObject);
+                    }
+                }
             }
             
             
@@ -134,8 +145,8 @@ namespace Uniboom.Player {
                 spreadBlast.GetComponent<Blast>().setRemainingWave(wave - 1);
                 spreadBlast.GetComponent<Blast>().setSpreadDelay(spreadDelay);
                 spreadBlast.GetComponent<Blast>().setSpreadDirection(direction);
-                spreadBlast.GetComponent<Blast>().stageDirector = stageDirector;
-                spreadBlast.parent = currentRoom;
+                //spreadBlast.GetComponent<Blast>().stageDirector = stageDirector;
+                //spreadBlast.parent = currentRoom;
             }
         }
 
