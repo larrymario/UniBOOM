@@ -5,18 +5,22 @@ namespace Uniboom.Stage {
 
     public class Room : MonoBehaviour {
 
-        public int size;        //Hardcore field value for testing
+        public int size;                    //Hardcore field value for testing
 
         private int sizeX;
         private int sizeY;
-        private List<int> blockMat; //0:Nothing 1:Block 2:Brick
+        private Transform error;       //Error response of GetSpace
+        private List<int> blockMat;         //0:Nothing 1:Block 2:Brick
         private List<Transform> spaceMat;
 
-        public Transform GetBlock(int x, int y) {
-            return spaceMat[sizeX * x + y];
+        public Transform GetSpace(int x, int y) {
+            if (x >= 0 && y >= 0 && x < sizeX && y < sizeY) {
+                return spaceMat[sizeX * x + y];
+            }
+            else return error;
         }
 
-        public void SetBlock(int x, int y, Transform obj) {
+        public void SetSpace(int x, int y, Transform obj) {
             spaceMat[sizeX * x + y] = obj;
         }
 
@@ -24,7 +28,34 @@ namespace Uniboom.Stage {
             return size;
         }
 
+        public Stack<int> ComputeFloodFill(int startX, int startY, int finishX, int finishY) {
+            Stack<int> route = new Stack<int>();
+            List<int> routeMat = new List<int>(sizeX * sizeY);
+            for (int i = 0; i < sizeX; i++) {
+                for (int j = 0; j < sizeY; j++) {
+                    routeMat.Add(0);
+                }
+            }
+            routeMat[sizeX * startX + startY] = 1;
+            Flood(routeMat, startX, startY, 1);
+            return route;
+        }
+
+        private void Flood(List<int> routeMat, int x, int y, int value) {
+            if (GetSpace(x, y) == null) {
+                if (routeMat[sizeX * x + y] == 0) {
+                    routeMat[sizeX * x + y] = value + 1;
+                    Flood(routeMat, x + 1, y, value + 1);
+                    Flood(routeMat, x - 1, y, value + 1);
+                    Flood(routeMat, x, y + 1, value + 1);
+                    Flood(routeMat, x, y - 1, value + 1);
+                }
+            }
+        }
+
         void Awake() {
+            error = GameObject.Find("Error").transform;
+
             InitializeMat();
             ReadRoomProperty();
         }

@@ -22,7 +22,7 @@ namespace Uniboom.Enemy {
             enemyRigidbody.AddTorque(new Vector3(Random.Range(500f, 1500f), Random.Range(500f, 1500f), Random.Range(500f, 1500f)), ForceMode.Force);
         }
 
-        void FixedUpdate() {
+        void Update() {
             Vector3 velocity = enemyRigidbody.velocity;
             if (velocity.x < deadSpeed && velocity.y < deadSpeed && velocity.z < deadSpeed) {
                 timer++;

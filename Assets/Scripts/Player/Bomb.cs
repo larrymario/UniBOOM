@@ -13,8 +13,8 @@ namespace Uniboom.Player {
         public int remainingWave;
         public int spreadDelay;
 
-        public Transform stageDirector;
-        private Transform currentRoom;
+        public StageDirector stageDirector;
+        private Room currentRoom;
         private int timer;
 
 
@@ -28,21 +28,22 @@ namespace Uniboom.Player {
             if (incomingDirection != 4) GenerateBlast(remainingWave, spreadDelay, 8);
 
             player.GetComponent<Unitychan>().BombCountUp();
+            currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, null);
             Destroy(gameObject); 
         }
 
         void Awake() {
-            stageDirector = GameObject.Find("Stage_Director").transform;
-            transform.parent = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
-            currentRoom = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
+            stageDirector = GameObject.Find("Stage_Director").transform.GetComponent<StageDirector>();
+            transform.SetParent(stageDirector.GetCurrentRoom().transform);
+            currentRoom = stageDirector.GetCurrentRoom();
         }
 
         void Start() {
             timer = 0;
-            currentRoom.GetComponent<Room>().SetBlock((int)transform.position.x, (int)transform.position.z, transform);
+            currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
         }
 
-        void FixedUpdate() {
+        void Update() {
             if (timer == explodeDelay) {
                 Explode(0);
             }

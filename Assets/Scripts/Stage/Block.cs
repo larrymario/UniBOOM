@@ -5,14 +5,14 @@ namespace Uniboom.Stage {
 
     public class Block : MonoBehaviour {
 
-        private Transform currentRoom;
+        private Room currentRoom;
 
         void Awake() {
-            currentRoom = transform.parent.parent;
+            currentRoom = transform.parent.parent.GetComponent<Room>();
         }
 
         void Start() {
-            currentRoom.GetComponent<Room>().SetBlock((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
+            currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
         } 
     }
 }

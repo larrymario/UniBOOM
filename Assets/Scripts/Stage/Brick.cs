@@ -27,7 +27,7 @@ namespace Uniboom.Stage {
                 Destroy(gameObject);
             }
             else {
-                currentRoom.GetComponent<Room>().SetBlock((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
+                currentRoom.GetComponent<Room>().SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
             }
         }
 

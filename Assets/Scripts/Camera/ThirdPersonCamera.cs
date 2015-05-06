@@ -34,7 +34,7 @@ namespace Uniboom.Camera {
             RotateCamera();
         }
 
-        void FixedUpdate() {
+        void Update() {
             theta -= Input.GetAxis("Mouse Y") * moveSensitivity;
             phi += Input.GetAxis("Mouse X") * moveSensitivity;
             radius -= Input.GetAxis("Mouse ScrollWheel") * wheelSensitivity;

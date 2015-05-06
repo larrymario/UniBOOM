@@ -20,7 +20,7 @@ public class BrickWreck : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate() {
+    void Update() {
         Vector3 velocity = brickRigidbody.velocity;
         if (velocity.x < deadSpeed && velocity.y < deadSpeed && velocity.z < deadSpeed) {
             timer++;

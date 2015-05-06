@@ -1,54 +1,129 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Uniboom.Player;
+using Uniboom.Stage;
 
 namespace Uniboom.Director { 
 
     public class StageDirector : MonoBehaviour {
 
-        public Transform unitychan;
         public bool debug;
 
-        private Transform currentRoom;
+        private Unitychan unitychan;
+        private GameState gameState;
+        private int stateTimer;
+        private Room currentRoom;
 
-        public Transform GetCurrentRoom() {
+        public GameState GetGameState() {
+            return gameState;
+        }
+
+        public void SetGameState(GameState state) {
+            this.gameState = state;
+        }
+
+        public int GetStateTimer() {
+            return stateTimer;
+        }
+
+        public void SetStateTimer(int time) {
+            this.stateTimer = time;
+        }
+
+        public Room GetCurrentRoom() {
             return currentRoom;
         }
 
-        public void SetCurrentRoom(Transform room) {
+        public void SetCurrentRoom(Room room) {
             this.currentRoom = room;
         }
         
         void Awake() {
             Random.seed = (int)System.DateTime.Now.ToBinary();
 
-            unitychan = GameObject.Find("SD_unitychan_generic").transform;
-            currentRoom = GameObject.Find("Room_1").transform;
+            unitychan = GameObject.Find("SD_unitychan_generic").transform.GetComponent<Unitychan>();
+            currentRoom = GameObject.Find("Room_1").transform.GetComponent<Room>();
         }
 
         void Start() {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            gameState = GameState.Prelude;
+
+            if (debug) {
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                gameState = GameState.Normal;
+                unitychan.GetComponent<Unitychan>().SetControllability(true);
+            }
+            
         }
 
-        void FixedUpdate() {
-            //Only for testing
-            if (Input.GetKeyDown("r")) {
-                Application.LoadLevel("Test");
+        void Update() {
+            switch (gameState) {
+                case GameState.Prelude:
+                    if (stateTimer < 50) {
+
+                    }
+                    else { 
+                        unitychan.GetComponent<Unitychan>().SetControllability(true);
+                        gameState = GameState.Normal;
+                    }
+                    stateTimer++;
+                    break;
+                case GameState.Normal:
+
+                    break;
+                case GameState.Paused:
+
+                    break;
+                case GameState.Interlude:
+
+                    break;
+                case GameState.Victory:
+
+                    break;
+                case GameState.GameOver:
+                    if (stateTimer < 200) {
+
+                    }
+                    else {
+                        
+                    }
+                    stateTimer++;
+                    break;
             }
-            if (Input.GetKeyDown("escape")) {
-                Application.Quit();
-            }
-            if (Input.GetKeyDown("e")) {
-                if (Cursor.lockState == CursorLockMode.Locked) {
-                    Cursor.visible = true;
-                    Cursor.lockState = CursorLockMode.None;
+
+            if (debug) { 
+                if (Input.GetKeyDown("r")) {
+                    Application.LoadLevel("Test");
                 }
-                else if (Cursor.lockState == CursorLockMode.None) {
-                    Cursor.visible = false;
-                    Cursor.lockState = CursorLockMode.Locked;
+                if (Input.GetKeyDown("escape")) {
+                    Application.Quit();
+                }
+                if (Input.GetKeyDown("e")) {
+                    if (Cursor.lockState == CursorLockMode.Locked) {
+                        Cursor.visible = true;
+                        Cursor.lockState = CursorLockMode.None;
+                    }
+                    else if (Cursor.lockState == CursorLockMode.None) {
+                        Cursor.visible = false;
+                        Cursor.lockState = CursorLockMode.Locked;
+                    }
                 }
             }
+
         }
+
+        
     }
 
+    public enum GameState {
+        Prelude,
+        Normal,
+        Interlude,
+        Paused,
+        Victory,
+        GameOver
+    }
 }

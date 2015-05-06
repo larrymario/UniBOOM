@@ -13,7 +13,7 @@ namespace Uniboom.Director {
             StartCoroutine(LoadScene());
         }
 
-        void FixedUpdate() {
+        void Update() {
             Instantiate(block, new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f)), Quaternion.Euler(0f, 0f, 0f));
         
         }
