@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using Uniboom.Player;
 using Uniboom.Stage;
 
@@ -8,6 +8,7 @@ namespace Uniboom.Director {
     public class StageDirector : MonoBehaviour {
 
         public bool debug;
+        public List<Transform> itemList;
 
         private Unitychan unitychan;
         private GameState gameState;
@@ -37,7 +38,12 @@ namespace Uniboom.Director {
         public void SetCurrentRoom(Room room) {
             this.currentRoom = room;
         }
-        
+
+        public Transform GetRandomItem() {
+            int index = Random.Range(0, itemList.Count);
+            return itemList[index];
+        }
+
         void Awake() {
             Random.seed = (int)System.DateTime.Now.ToBinary();
 
@@ -94,24 +100,24 @@ namespace Uniboom.Director {
                     break;
             }
 
-            if (debug) { 
-                if (Input.GetKeyDown("r")) {
-                    Application.LoadLevel("Test");
+            
+            if (Input.GetKeyDown("r")) {
+                Application.LoadLevel("Test");
+            }
+            if (Input.GetKeyDown("escape")) {
+                Application.Quit();
+            }
+            if (Input.GetKeyDown("e")) {
+                if (Cursor.lockState == CursorLockMode.Locked) {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
                 }
-                if (Input.GetKeyDown("escape")) {
-                    Application.Quit();
-                }
-                if (Input.GetKeyDown("e")) {
-                    if (Cursor.lockState == CursorLockMode.Locked) {
-                        Cursor.visible = true;
-                        Cursor.lockState = CursorLockMode.None;
-                    }
-                    else if (Cursor.lockState == CursorLockMode.None) {
-                        Cursor.visible = false;
-                        Cursor.lockState = CursorLockMode.Locked;
-                    }
+                else if (Cursor.lockState == CursorLockMode.None) {
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
                 }
             }
+            
 
         }
 

@@ -10,7 +10,7 @@ namespace Uniboom.Stage {
         private int sizeX;
         private int sizeY;
         private Transform error;       //Error response of GetSpace
-        private List<int> blockMat;         //0:Nothing 1:Block 2:Brick
+        //private List<int> blockMat;         //0:Nothing 1:Block 2:Brick
         private List<Transform> spaceMat;
 
         public Transform GetSpace(int x, int y) {
@@ -57,7 +57,7 @@ namespace Uniboom.Stage {
             error = GameObject.Find("Error").transform;
 
             InitializeMat();
-            ReadRoomProperty();
+            //ReadRoomProperty();
         }
 
         private void InitializeMat() {
@@ -71,6 +71,7 @@ namespace Uniboom.Stage {
             }
         }
 
+        /*
         private void ReadRoomProperty() {
             sizeX = size;
             sizeY = size;
@@ -82,7 +83,7 @@ namespace Uniboom.Stage {
                 }
             }
         }
-
+        */
     }
 
 }

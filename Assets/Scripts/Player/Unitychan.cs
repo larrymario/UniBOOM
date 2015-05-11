@@ -120,8 +120,38 @@ namespace Uniboom.Player {
             
         }
 
+        void OnTriggerEnter(Collider other) {
+            if (other.tag == "Item") {
+                Item item = other.transform.GetComponent<Item>();
+                switch (item.itemType) {
+                    case ItemType.Power:
+                        maxFire++;
+                        break;
+                    case ItemType.Bomb:
+                        maxBomb++;
+                        bombCount++;
+                        break;
+                    case ItemType.Stamina:
+                        maxStamina += 2f;
+                        staminaCount += 2f;
+                        break;
+                    case ItemType.Heal:
+                        if (HPCount < maxHP) HPCount++;
+                        break;
+                    case ItemType.MaxHP:
+                        maxHP++;
+                        HPCount++;
+                        break;
+                    default:
+
+                        break;
+                }
+                item.BeEaten();
+            }
+        }
+
         private void LoadStatus() {
-            maxFire = 5;
+            maxFire = 1;
             maxBomb = 30;
             maxStamina = 10f;
             maxHP = 5;
@@ -283,7 +313,7 @@ namespace Uniboom.Player {
                 if (staminaCount > maxStamina) staminaCount = maxStamina;
             }
             if (!isDashable) {
-                if (staminaCount >= 2.5f) isDashable = true;
+                if (staminaCount >= 0.5 * maxStamina && !dashInput) isDashable = true;
             }
 
 
