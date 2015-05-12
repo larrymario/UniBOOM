@@ -11,9 +11,11 @@ namespace Uniboom.Director {
         public List<Transform> itemList;
 
         private Unitychan unitychan;
+        private Room currentRoom;
+        
         private GameState gameState;
         private int stateTimer;
-        private Room currentRoom;
+        private bool isLoadingDone;
 
         public GameState GetGameState() {
             return gameState;
@@ -67,6 +69,9 @@ namespace Uniboom.Director {
 
         void Update() {
             switch (gameState) {
+                case GameState.Loading:
+
+                    break;
                 case GameState.Prelude:
                     if (stateTimer < 50) {
 
@@ -125,6 +130,7 @@ namespace Uniboom.Director {
     }
 
     public enum GameState {
+        Loading,
         Prelude,
         Normal,
         Interlude,
