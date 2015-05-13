@@ -50,7 +50,7 @@ namespace Uniboom.Director {
             Random.seed = (int)System.DateTime.Now.ToBinary();
 
             unitychan = GameObject.Find("SD_unitychan_generic").transform.GetComponent<Unitychan>();
-            currentRoom = GameObject.Find("Room_1").transform.GetComponent<Room>();
+            //currentRoom = GameObject.Find("Room_1").transform.GetComponent<Room>();
         }
 
         void Start() {

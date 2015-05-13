@@ -5,13 +5,13 @@ namespace Uniboom.Stage {
 
     public class Room : MonoBehaviour {
 
-        public int size;                    //Hardcore field value for testing
-
+        private int size;
         private int sizeX;
         private int sizeY;
-        private Transform error;       //Error response of GetSpace
+        private Transform error;            //Error response of GetSpace
         //private List<int> blockMat;         //0:Nothing 1:Block 2:Brick
         private List<Transform> spaceMat;
+
 
         public Transform GetSpace(int x, int y) {
             if (x >= 0 && y >= 0 && x < sizeX && y < sizeY) {
@@ -26,6 +26,10 @@ namespace Uniboom.Stage {
 
         public int GetSize() {
             return size;
+        }
+
+        public void SetSize(int size) {
+            this.size = size;
         }
 
         public Stack<int> ComputeFloodFill(int startX, int startY, int finishX, int finishY) {
@@ -56,8 +60,11 @@ namespace Uniboom.Stage {
         void Awake() {
             error = GameObject.Find("Error").transform;
 
-            InitializeMat();
             //ReadRoomProperty();
+        }
+
+        void Start() {
+            InitializeMat();
         }
 
         private void InitializeMat() {

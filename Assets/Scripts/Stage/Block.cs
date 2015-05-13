@@ -7,8 +7,12 @@ namespace Uniboom.Stage {
 
         private Room currentRoom;
 
+        public void SetCurrentRoom(Room room) {
+            currentRoom = room;
+        }
+
         void Awake() {
-            currentRoom = transform.parent.parent.GetComponent<Room>();
+            //currentRoom = transform.parent.parent.GetComponent<Room>();
         }
 
         void Start() {

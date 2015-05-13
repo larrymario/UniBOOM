@@ -71,7 +71,7 @@ namespace Uniboom.Player {
         
         private void CheckSpaceStatus() {
             
-            int roomSize = currentRoom.size;
+            int roomSize = currentRoom.GetSize();
             Transform spaceObj = null;
             if (transform.localPosition.x < 0 ||
                 transform.localPosition.z < 0 ||

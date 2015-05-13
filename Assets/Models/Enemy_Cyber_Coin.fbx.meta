@@ -1,46 +1,15 @@
 fileFormatVersion: 2
-guid: c46c6c4d793936540a30d1cbef87c35f
-timeCreated: 1431306224
+guid: e131506898d8a2b47957a7e26062dd55
+timeCreated: 1431480659
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Enemy_Cyber_Undefined
-    100004: Enemy_Cyber_Undefined1
-    100006: pPlane1
-    100008: pPlane2
-    100010: pPlane3
-    100012: pPlane4
-    100014: pPlane5
-    100016: pPlane6
     400000: //RootNode
-    400002: Enemy_Cyber_Undefined
-    400004: Enemy_Cyber_Undefined1
-    400006: pPlane1
-    400008: pPlane2
-    400010: pPlane3
-    400012: pPlane4
-    400014: pPlane5
-    400016: pPlane6
-    2300000: pPlane1
-    2300002: pPlane2
-    2300004: pPlane3
-    2300006: pPlane4
-    2300008: pPlane5
-    2300010: pPlane6
-    3300000: pPlane1
-    3300002: pPlane2
-    3300004: pPlane3
-    3300006: pPlane4
-    3300008: pPlane5
-    3300010: pPlane6
-    4300000: pPlane1
-    4300002: pPlane2
-    4300004: pPlane3
-    4300006: pPlane4
-    4300008: pPlane5
-    4300010: pPlane6
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Enemy_Cyber_Coin
     9500000: //RootNode
   materials:
     importMaterials: 1

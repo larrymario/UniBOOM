@@ -245,7 +245,7 @@ namespace Uniboom.Player {
                     if (obj == null) {
                         BombCountDown();
                         Vector3 pos = new Vector3(Mathf.Floor(transform.position.x),
-                                                  0,
+                                                  transform.position.y,
                                                   Mathf.Floor(transform.position.z));
                         Transform bombClone = (Transform)Instantiate(bomb, pos, Quaternion.Euler(Vector3.zero));
                         //bombClone.name = "Bomb_" + (int)transform.position.x + "_" + (int)transform.position.y;

@@ -12,8 +12,11 @@ namespace Uniboom.Stage {
         public Transform assignedItemDrop;      //null value yields a random drop
 
         private StageDirector stageDirector;
-        private Transform currentRoom;
+        private Room currentRoom;
 
+        public void SetCurrentRoom(Room room) {
+            currentRoom = room;
+        }
 
         public void Shatter() {
             Instantiate(wreck, transform.position, transform.rotation);
@@ -23,7 +26,7 @@ namespace Uniboom.Stage {
 
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
-            currentRoom = transform.parent.parent;
+            //currentRoom = transform.parent.parent;
         }
 
         void Start() {
@@ -32,7 +35,7 @@ namespace Uniboom.Stage {
                 Destroy(gameObject);
             }
             else {
-                currentRoom.GetComponent<Room>().SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
+                currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
             }
         }
 
