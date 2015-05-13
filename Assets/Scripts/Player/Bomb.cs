@@ -43,7 +43,7 @@ namespace Uniboom.Player {
             currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
         }
 
-        void Update() {
+        void FixedUpdate() {
             if (timer == explodeDelay) {
                 Explode(0);
             }

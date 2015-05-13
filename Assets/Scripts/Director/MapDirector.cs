@@ -45,7 +45,7 @@ namespace Uniboom.Director {
         }
         
         private void GenerateMap() {
-            //Not implemented
+            //Hardcore for test
             for (int i = 0; i < 15; i++) {
                 for (int j = 0; j < 15; j++) {
                     map[i, j] = 0;
@@ -53,11 +53,13 @@ namespace Uniboom.Director {
             }
             map[7, 7] = 1;
             map[7, 8] = 1;
+            map[7, 9] = 1;
+            map[7, 10] = 1;
+            map[7, 11] = 1;
             map[7, 6] = 1;
             map[6, 7] = 1;
             map[8, 7] = 1;
-            //End
-
+            
             for (int i = 0; i < 15; i++) {
                 for (int j = 0; j < 15; j++) { 
                     if (map[i, j] != 0) {
@@ -135,7 +137,7 @@ namespace Uniboom.Director {
             blockSetObj.transform.localPosition = Vector3.zero;
             blockSetObj.transform.localRotation = Quaternion.Euler(Vector3.zero);
             GameObject brickSetObj = new GameObject();
-            blockSetObj.name = "Brick_Set";
+            brickSetObj.name = "Brick_Set";
             brickSetObj.transform.SetParent(roomObj.transform);
             brickSetObj.transform.localPosition = Vector3.zero;
             brickSetObj.transform.localRotation = Quaternion.Euler(Vector3.zero);

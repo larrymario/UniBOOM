@@ -35,15 +35,17 @@ namespace Uniboom.Player {
             stageDirector = GameObject.Find("Stage_Director").transform.GetComponent<StageDirector>();
             transform.SetParent(stageDirector.GetCurrentRoom().transform);
             currentRoom = stageDirector.GetCurrentRoom();
+            //GetComponent<BoxCollider>().enabled = false;
         }
 
         void Start() {
             timer = 0;
 
             CheckSpaceStatus();
+
         }
 
-        void Update() {
+        void FixedUpdate() {
             GenerateFlare();
             if (timer == spreadDelay) {
                SpreadBlast(remainingWave, spreadDirection);
@@ -103,8 +105,8 @@ namespace Uniboom.Player {
                     }
                 }
             }
-            
-            
+
+            GetComponent<BoxCollider>().enabled = true;
         }
 
         private void GenerateFlare() {
@@ -114,7 +116,7 @@ namespace Uniboom.Player {
                                                             Random.Range(0.1f, 0.9f),
                                                             Random.Range(0.1f, 0.9f),
                                                             Random.Range(0.1f, 0.9f)), transform.rotation);
-                flareClone.parent = transform;
+                //flareClone.parent = transform;
             }
         }
 

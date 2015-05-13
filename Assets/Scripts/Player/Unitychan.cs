@@ -267,14 +267,14 @@ namespace Uniboom.Player {
                         isControllable = false;
                         vitalState = VitalState.Damaged;
                         ucAnimator.SetTrigger("IsHit");
-                        freezeTime = 80;
+                        freezeTime = 50;
                     }
                     if (isCrushed) {
                         vitalStateTimer = 0;
                         isControllable = false;
                         vitalState = VitalState.Damaged;
                         ucAnimator.SetTrigger("IsCrushed");
-                        freezeTime = 120;
+                        freezeTime = 60;
                     }
                     if (isDying) {
                         vitalStateTimer = 0;

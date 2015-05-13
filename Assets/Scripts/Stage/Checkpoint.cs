@@ -23,8 +23,8 @@ namespace Uniboom.Stage {
                 while (unitychan.GetComponent<Unitychan>() == null) {
                     unitychan = unitychan.parent;
                 }
-                unitychan.SetParent(transform.parent.parent);
-                stageDirector.SetCurrentRoom(transform.parent.parent.GetComponent<Room>());
+                unitychan.SetParent(transform.parent.parent.parent);
+                stageDirector.SetCurrentRoom(transform.parent.parent.parent.GetComponent<Room>());
             }
         }
     }

@@ -14,7 +14,7 @@ namespace Uniboom.Player {
             timer = 0;
         }
 
-        void Update() {
+        void FixedUpdate() {
             float scaleDelta = 0.06f;
             if (timer >= timeNodes[0] && timer < timeNodes[1]) {
                 transform.localScale += new Vector3(scaleDelta, scaleDelta, scaleDelta);
