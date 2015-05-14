@@ -9,13 +9,17 @@ namespace Uniboom.Director {
 
         public bool debug;
         public List<Transform> itemList;
+        public List<Transform> enemyList;
+        public float brickExistProb;
+        public int stageNum;
+        public int minRoomEnemy;
+        public int maxRoomEnemy;
 
         private Unitychan unitychan;
         private Room currentRoom;
         
         private GameState gameState;
         private int stateTimer;
-        private bool isLoadingDone;
 
         public GameState GetGameState() {
             return gameState;
@@ -38,7 +42,10 @@ namespace Uniboom.Director {
         }
 
         public void SetCurrentRoom(Room room) {
-            this.currentRoom = room;
+            if (room != currentRoom) { 
+                room.setActive();
+                this.currentRoom = room;
+            }
         }
 
         public Transform GetRandomItem() {

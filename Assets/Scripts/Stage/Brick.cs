@@ -6,7 +6,7 @@ namespace Uniboom.Stage {
 
     public class Brick : MonoBehaviour {
 
-        public float existProb;
+        //public float existProb;
         public float itemDropProb;
         public Transform wreck;
         public Transform assignedItemDrop;      //null value yields a random drop
@@ -31,7 +31,7 @@ namespace Uniboom.Stage {
 
         void Start() {
             float existance = Random.Range(0f, 1f);
-            if (existance > existProb) {
+            if (existance > stageDirector.brickExistProb) {
                 Destroy(gameObject);
             }
             else {

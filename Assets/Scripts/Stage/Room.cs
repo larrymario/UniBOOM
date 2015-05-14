@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Uniboom.Director;
 
 namespace Uniboom.Stage {
 
     public class Room : MonoBehaviour {
 
+        public int roomType;                //1: Normal  2: Boss
+
         private int size;
         private int sizeX;
         private int sizeY;
         private Transform error;            //Error response of GetSpace
-        //private List<int> blockMat;         //0:Nothing 1:Block 2:Brick
         private List<Transform> spaceMat;
+        private StageDirector stageDirector;
+
+        private bool isClear;
 
 
         public Transform GetSpace(int x, int y) {
@@ -30,6 +35,12 @@ namespace Uniboom.Stage {
 
         public void SetSize(int size) {
             this.size = size;
+        }
+
+        public void SetActive() {
+            if (!isClear) {
+                GenerateEnemy();
+            }
         }
 
         public Stack<int> ComputeFloodFill(int startX, int startY, int finishX, int finishY) {
@@ -58,8 +69,9 @@ namespace Uniboom.Stage {
         }
 
         void Awake() {
+            stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
             error = GameObject.Find("Error").transform;
-
+            isClear = false;
             //ReadRoomProperty();
         }
 
@@ -76,6 +88,11 @@ namespace Uniboom.Stage {
                     spaceMat.Add(null);
                 }
             }
+        }
+
+        private void GenerateEnemy() {
+            int enemyCount = Random.Range(stageDirector.minRoomEnemy, stageDirector.maxRoomEnemy + 1);
+
         }
 
         /*

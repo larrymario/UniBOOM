@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Uniboom.Player;
 using Uniboom.Stage;
 using Uniboom.Utility;
+using Uniboom.Utility.Map;
 
 namespace Uniboom.Director { 
 
@@ -11,6 +12,8 @@ namespace Uniboom.Director {
 
         public int roomSize;
         public int corridorLength;
+        public uint mapRoomDepth;
+        public uint mapRoomCount;
 
         public Transform ground;
         public Transform wall;
@@ -70,9 +73,14 @@ namespace Uniboom.Director {
             stageDirector.SetCurrentRoom(GameObject.Find("Room_7_7").GetComponent<Room>());
             unitychan.SetParent(GameObject.Find("Room_7_7").transform);
             unitychan.localPosition = new Vector3((float)roomSize / 2f, 0f, 0.5f);
+
+            MapGenerator mapGenerator = new MapGenerator(mapRoomDepth, mapRoomCount);
+            MapRoom firstRoom = mapGenerator.GlobalMapGeneration();
         }
 
-        private void GenerateRoom(int x, int z, int type, uint door) {  //1: PX  2: NX  4: PZ  8: NZ
+
+
+        private void GenerateRoom(int x, int z, int type, uint door) {  //door 1: PX  2: NX  4: PZ  8: NZ
             GameObject roomObj = new GameObject();
             roomObj.transform.position = new Vector3(x * occupiedSize, 0, z * occupiedSize);
             roomObj.transform.rotation = Quaternion.Euler(Vector3.zero);
@@ -142,7 +150,7 @@ namespace Uniboom.Director {
             brickSetObj.transform.localPosition = Vector3.zero;
             brickSetObj.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
-            string pattern = patternList[Random.Range(0, patternList.Count)];
+            string pattern = patternList[Random.Range(1, patternList.Count)];   //0 for boss room
             for (int i = 0; i < roomSize; i++) {
                 for (int j = 0; j < roomSize; j++) {
                     char spaceType = pattern[roomSize * i + j];
