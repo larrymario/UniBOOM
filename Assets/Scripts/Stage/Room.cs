@@ -53,8 +53,11 @@ namespace Uniboom.Stage {
             List<int> emptySpaceList = new List<int>();
             for (int i = 0; i < spaceMat.Count; i++) {
                 if (spaceMat[i] == null) {
-                    emptySpaceList.Add(i);
+                    if (!isBesideDoor(i)) { 
+                        emptySpaceList.Add(i);
+                    }
                 }
+
             }
             if (enemyCount >  emptySpaceList.Count) enemyCount = emptySpaceList.Count;
 
@@ -115,6 +118,16 @@ namespace Uniboom.Stage {
                 enemy.localPosition = new Vector3((float)(enemyPosList[i] / size) + 0.5f, 0, (float)(enemyPosList[i] % size) + 0.5f);
             }
 
+        }
+
+        private bool isBesideDoor(int pos) {
+            int x = pos / size;
+            int y = pos % size;
+            int mid = size / 2;
+            return (x <= 1 && y <= mid + 2 && y >= mid - 2) ||
+                   (x >= size - 3 && y <= mid + 2 && y >= mid - 2) ||
+                   (y <= 1 && x <= mid + 2 && x >= mid - 2) ||
+                   (y >= size - 3 && x <= mid + 2 && x >= mid - 2);
         }
 
         /*

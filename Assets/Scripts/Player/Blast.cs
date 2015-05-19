@@ -67,7 +67,7 @@ namespace Uniboom.Player {
                 unitychan.GetComponent<Unitychan>().GetDamaged(false, 2);
             }
             else if (other.tag == "Enemy") {
-                other.GetComponent<EnemyDummy>().GetDamaged();
+                other.GetComponent<EnemyBody>().GetDamaged();
             }
         }
         

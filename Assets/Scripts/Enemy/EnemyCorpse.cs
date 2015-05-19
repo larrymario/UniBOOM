@@ -4,8 +4,9 @@ using Uniboom.Player;
 
 namespace Uniboom.Enemy {
 
-    public class EnemyDummyCorpse : MonoBehaviour {
+    public class EnemyCorpse : MonoBehaviour {
 
+        public int repelForce;
         public int disappearTime;
         public float deadSpeed;
         public int forceDisappearTime;
@@ -18,8 +19,8 @@ namespace Uniboom.Enemy {
             timer = 0;
 
             enemyRigidbody = GetComponent<Rigidbody>();
-            enemyRigidbody.AddForce(new Vector3(Random.Range(500f, 1500f), Random.Range(500f, 1500f), Random.Range(500f, 1500f)));
-            enemyRigidbody.AddTorque(new Vector3(Random.Range(500f, 1500f), Random.Range(500f, 1500f), Random.Range(500f, 1500f)), ForceMode.Force);
+            enemyRigidbody.AddForce(Random.insideUnitSphere * repelForce);
+            enemyRigidbody.AddTorque(Random.insideUnitSphere * repelForce, ForceMode.Force);
         }
 
         void Update() {
