@@ -13,10 +13,20 @@ namespace Uniboom.Stage {
         private int sizeY;
         private Transform error;            //Error response of GetSpace
         private List<Transform> spaceMat;
+        private List<int> enemyPosList;
         private StageDirector stageDirector;
-
         private bool isClear;
 
+        public void InitializeMat() {
+            sizeX = size;
+            sizeY = size;
+            spaceMat = new List<Transform>(sizeX * sizeY);
+            for (int i = 0; i < sizeX; i++) {
+                for (int j = 0; j < sizeY; j++) {
+                    spaceMat.Add(null);
+                }
+            }
+        }
 
         public Transform GetSpace(int x, int y) {
             if (x >= 0 && y >= 0 && x < sizeX && y < sizeY) {
@@ -35,6 +45,25 @@ namespace Uniboom.Stage {
 
         public void SetSize(int size) {
             this.size = size;
+        }
+
+        public void GenerateEnemyList() {
+            enemyPosList = new List<int>();
+            int enemyCount = Random.Range(stageDirector.minRoomEnemy, stageDirector.maxRoomEnemy + 1);
+            List<int> emptySpaceList = new List<int>();
+            for (int i = 0; i < spaceMat.Count; i++) {
+                if (spaceMat[i] == null) {
+                    emptySpaceList.Add(i);
+                }
+            }
+            if (enemyCount >  emptySpaceList.Count) enemyCount = emptySpaceList.Count;
+
+            for (int i = 0; i < enemyCount; i++) {
+                int index = Random.Range(0, emptySpaceList.Count);
+                enemyPosList.Add(emptySpaceList[index]);
+                emptySpaceList.RemoveAt(index);
+            }
+            emptySpaceList.Clear();
         }
 
         public void SetActive() {
@@ -76,25 +105,23 @@ namespace Uniboom.Stage {
         }
 
         void Start() {
-            InitializeMat();
-        }
-
-        private void InitializeMat() {
-            sizeX = size;
-            sizeY = size;
-            spaceMat = new List<Transform>(sizeX * sizeY);
-            for (int i = 0; i < sizeX; i++) {
-                for (int j = 0; j < sizeY; j++) {
-                    spaceMat.Add(null);
-                }
-            }
+            //InitializeMat();
         }
 
         private void GenerateEnemy() {
-            int enemyCount = Random.Range(stageDirector.minRoomEnemy, stageDirector.maxRoomEnemy + 1);
+            for (int i = 0; i < enemyPosList.Count; i++) {
+                Transform enemy = Instantiate(stageDirector.enemyList[Random.Range(0, stageDirector.enemyList.Count)]);
+                enemy.SetParent(transform);
+                enemy.localPosition = new Vector3((float)(enemyPosList[i] / size) + 0.5f, 0, (float)(enemyPosList[i] % size) + 0.5f);
+            }
 
         }
 
+        /*
+        private static bool IsTransformNull(Transform obj) {
+            return obj == null;
+        }
+        */
         /*
         private void ReadRoomProperty() {
             sizeX = size;

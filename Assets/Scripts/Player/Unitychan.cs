@@ -85,6 +85,8 @@ namespace Uniboom.Player {
 
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
+            ucRigidbody = GetComponent<Rigidbody>();
+            ucAnimator = GetComponent<Animator>();
         }
 
         void Start() {
@@ -100,8 +102,7 @@ namespace Uniboom.Player {
             vitalStateTimer = 0;
             invinTimer = 0;
             freezeTime = 80;
-            ucRigidbody = GetComponent<Rigidbody>();
-            ucAnimator = GetComponent<Animator>();
+            
             bombCount = maxBomb;
             HPCount = maxHP;
             staminaCount = maxStamina;
@@ -158,10 +159,10 @@ namespace Uniboom.Player {
         }
 
         private void GetInput() {
-            if (!fireInputHold) {
-                fireInputTrigger = Input.GetAxis("Fire") > 0.001f ? true : false;
-            }
-            fireInputHold = Input.GetAxis("Fire") > 0.001f ? true : false;
+            //if (!fireInputHold) {
+            fireInputTrigger = Input.GetAxis("Fire") > 0.001f ? true : false;
+            //}
+            //fireInputHold = Input.GetAxis("Fire") > 0.001f ? true : false;
             dashInput = Input.GetAxis("Dash") > 0.001f ? true : false;
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
@@ -253,7 +254,7 @@ namespace Uniboom.Player {
                         bombClone.GetComponent<Bomb>().remainingWave = maxFire;
                         //bombClone.GetComponent<Bomb>().stageDirector = stageDirector;
                         //bombClone.parent = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
-                        fireInputTrigger = false;
+                        //fireInputTrigger = false;
                     }
                 }
             }
@@ -267,7 +268,7 @@ namespace Uniboom.Player {
                         isControllable = false;
                         vitalState = VitalState.Damaged;
                         ucAnimator.SetTrigger("IsHit");
-                        freezeTime = 50;
+                        freezeTime = 65;
                     }
                     if (isCrushed) {
                         vitalStateTimer = 0;

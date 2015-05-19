@@ -12,11 +12,13 @@ namespace Uniboom.Stage {
         public Transform assignedItemDrop;      //null value yields a random drop
 
         private StageDirector stageDirector;
-        private Room currentRoom;
+        //private Room currentRoom;
 
+        /*
         public void SetCurrentRoom(Room room) {
             currentRoom = room;
         }
+        */ 
 
         public void Shatter() {
             Instantiate(wreck, transform.position, transform.rotation);
@@ -32,10 +34,10 @@ namespace Uniboom.Stage {
         void Start() {
             float existance = Random.Range(0f, 1f);
             if (existance > stageDirector.brickExistProb) {
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
             else {
-                currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
+                //currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
             }
         }
 

@@ -43,7 +43,7 @@ namespace Uniboom.Director {
 
         public void SetCurrentRoom(Room room) {
             if (room != currentRoom) { 
-                room.setActive();
+                room.SetActive();
                 this.currentRoom = room;
             }
         }

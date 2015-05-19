@@ -111,11 +111,9 @@ namespace Uniboom.Player {
 
         private void GenerateFlare() {
             for (int i = 0; i < flareCountArray[timer]; i++) {
-                Transform flareClone = (Transform)Instantiate(flare, 
-                                                        transform.position + new Vector3(
-                                                            Random.Range(0.1f, 0.9f),
-                                                            Random.Range(0.1f, 0.9f),
-                                                            Random.Range(0.1f, 0.9f)), transform.rotation);
+                Instantiate(flare, transform.position + new Vector3(Random.Range(0.1f, 0.9f),
+                                                                    Random.Range(0.1f, 0.9f),
+                                                                    Random.Range(0.1f, 0.9f)), transform.rotation);
                 //flareClone.parent = transform;
             }
         }

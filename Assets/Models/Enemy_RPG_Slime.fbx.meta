@@ -1,16 +1,31 @@
 fileFormatVersion: 2
-guid: 3fe404c1c6c7a0c4c8a6d699b9fc9c93
-timeCreated: 1431003145
+guid: dbbf9e7202fde3f4db8a928a616d1243
+timeCreated: 1431910693
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
+    100002: joint1
+    100004: joint2
+    100006: joint3
+    100008: joint4
+    100010: joint5
+    100012: joint6
+    100014: nurbsToPoly1
     400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
+    400002: joint1
+    400004: joint2
+    400006: joint3
+    400008: joint4
+    400010: joint5
+    400012: joint6
+    400014: nurbsToPoly1
     4300000: nurbsToPoly1
+    7400000: Take 001
     9500000: //RootNode
+    11100000: //RootNode
+    13700000: nurbsToPoly1
   materials:
     importMaterials: 1
     materialName: 0
@@ -20,13 +35,55 @@ ModelImporter:
     bakeSimulation: 0
     optimizeGameObjects: 0
     motionNodeName: 
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 48
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/joint2
+        weight: 1
+      - path: joint1/joint2/joint3
+        weight: 1
+      - path: joint1/joint2/joint3/joint4
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/joint5
+        weight: 1
+      - path: joint1/joint2/joint3/joint4/joint5/joint6
+        weight: 1
+      - path: nurbsToPoly1
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -62,7 +119,7 @@ ModelImporter:
     armStretch: .0500000007
     legStretch: .0500000007
     feetSpacing: 0
-    rootMotionBoneName: 
+    rootMotionBoneName: nurbsToPoly1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   additionalBone: 0

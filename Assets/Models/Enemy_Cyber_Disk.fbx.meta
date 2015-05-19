@@ -20,6 +20,7 @@ ModelImporter:
     2300000: Enemy_Cyber_Disk
     3300000: Enemy_Cyber_Disk
     4300000: Enemy_Cyber_Disk
+    7400000: Take 001
     9500000: //RootNode
   materials:
     importMaterials: 1
