@@ -21,3 +21,6 @@ http://unity-chan.com/contents/guideline/
 * mouth_mat -- UnityChan/Eye - Transparent
 * nol_mat -- Hair - Double-side
 * skin-mat -- Skin - Transparent
+4. Delete all large-Unitychan data in UnityChan (UnityChan/Models), which is not needed.
+ 
+Unitychan is so CUTE
