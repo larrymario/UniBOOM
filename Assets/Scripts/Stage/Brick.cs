@@ -47,7 +47,7 @@ namespace Uniboom.Stage {
                 if (assignedItemDrop == null) {
                     assignedItemDrop = stageDirector.GetRandomItem();
                 }
-                Instantiate(assignedItemDrop, transform.position, transform.rotation);
+                Instantiate(assignedItemDrop, transform.position + new Vector3(0.5f, 0f, 0.5f), transform.rotation);
             }
         }
     }

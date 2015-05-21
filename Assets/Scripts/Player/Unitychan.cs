@@ -123,7 +123,7 @@ namespace Uniboom.Player {
 
         void OnTriggerEnter(Collider other) {
             if (other.tag == "Item") {
-                Item item = other.transform.GetComponent<Item>();
+                Item item = other.transform.root.GetComponent<Item>();
                 switch (item.itemType) {
                     case ItemType.Power:
                         maxFire++;

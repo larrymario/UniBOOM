@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 808e14812c08f16408abd5105f48f247
-timeCreated: 1431480659
+guid: 269e14ecee4e2b940a4a2e8a244e83eb
+timeCreated: 1432131396
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -52,7 +52,8 @@ ModelImporter:
     4300012: pCube7
     4300014: pCube8
     4300016: pSphere1
-    7400000: Take 001
+    7400000: Enemy_Cyber_Coin
+    7400002: BlockBlock
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -69,7 +70,53 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: BlockBlock
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: pCube1
+        weight: 1
+      - path: pCube2
+        weight: 1
+      - path: pCube3
+        weight: 1
+      - path: pCube4
+        weight: 1
+      - path: pCube5
+        weight: 1
+      - path: pCube6
+        weight: 1
+      - path: pCube7
+        weight: 1
+      - path: pCube8
+        weight: 1
+      - path: pSphere1
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

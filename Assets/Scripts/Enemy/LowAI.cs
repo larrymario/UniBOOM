@@ -6,7 +6,7 @@ namespace Uniboom.Enemy {
     public class LowAI : MonoBehaviour {
 
         public float speed;
-        public float IntegerOffset;
+        //public float IntegerOffset;
         public float turnTendency;
 
         private EnemyState state;

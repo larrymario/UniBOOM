@@ -18,6 +18,7 @@ namespace Uniboom.Enemy {
         void Start() {
             timer = 0;
 
+
             enemyRigidbody = GetComponent<Rigidbody>();
             enemyRigidbody.AddForce(Random.insideUnitSphere * repelForce);
             enemyRigidbody.AddTorque(Random.insideUnitSphere * repelForce, ForceMode.Force);

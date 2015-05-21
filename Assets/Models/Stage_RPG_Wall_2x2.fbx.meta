@@ -1,0 +1,202 @@
+fileFormatVersion: 2
+guid: 276094e030a206a42b31b738dbd83e30
+timeCreated: 1432083634
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: pCube1
+    100002: pCube11
+    100004: pCube12
+    100006: pCube13
+    100008: pCube14
+    100010: pCube15
+    100012: pCube16
+    100014: pCube17
+    100016: pCube18
+    100018: pCube2
+    100020: pCube3
+    100022: pCube4
+    100024: pCube5
+    100026: pCube6
+    100028: pCube7
+    100030: pCube8
+    100032: Stage_RPG_wall 1
+    100034: Stage_RPG_wall1
+    100036: Stage_RPG_wall10
+    100038: Stage_RPG_wall11
+    100040: Stage_RPG_wall12
+    100042: Stage_RPG_wall13
+    100044: Stage_RPG_wall4
+    100046: Stage_RPG_wall5
+    100048: Stage_RPG_wall6
+    100050: Stage_RPG_wall7
+    100052: Stage_RPG_wall9
+    100054: //RootNode
+    100056: Wall
+    400000: pCube1
+    400002: pCube11
+    400004: pCube12
+    400006: pCube13
+    400008: pCube14
+    400010: pCube15
+    400012: pCube16
+    400014: pCube17
+    400016: pCube18
+    400018: pCube2
+    400020: pCube3
+    400022: pCube4
+    400024: pCube5
+    400026: pCube6
+    400028: pCube7
+    400030: pCube8
+    400032: Stage_RPG_wall 1
+    400034: Stage_RPG_wall1
+    400036: Stage_RPG_wall10
+    400038: Stage_RPG_wall11
+    400040: Stage_RPG_wall12
+    400042: Stage_RPG_wall13
+    400044: Stage_RPG_wall4
+    400046: Stage_RPG_wall5
+    400048: Stage_RPG_wall6
+    400050: Stage_RPG_wall7
+    400052: Stage_RPG_wall9
+    400054: //RootNode
+    400056: Wall
+    2300000: pCube1
+    2300002: pCube11
+    2300004: pCube12
+    2300006: pCube13
+    2300008: pCube14
+    2300010: pCube15
+    2300012: pCube16
+    2300014: pCube17
+    2300016: pCube18
+    2300018: pCube2
+    2300020: pCube3
+    2300022: pCube4
+    2300024: pCube5
+    2300026: pCube6
+    2300028: pCube7
+    2300030: pCube8
+    2300032: Stage_RPG_wall 1
+    2300034: Stage_RPG_wall10
+    2300036: Stage_RPG_wall11
+    2300038: Stage_RPG_wall12
+    2300040: Stage_RPG_wall13
+    2300042: Stage_RPG_wall4
+    2300044: Stage_RPG_wall5
+    2300046: Stage_RPG_wall6
+    2300048: Stage_RPG_wall7
+    2300050: Stage_RPG_wall9
+    3300000: pCube1
+    3300002: pCube11
+    3300004: pCube12
+    3300006: pCube13
+    3300008: pCube14
+    3300010: pCube15
+    3300012: pCube16
+    3300014: pCube17
+    3300016: pCube18
+    3300018: pCube2
+    3300020: pCube3
+    3300022: pCube4
+    3300024: pCube5
+    3300026: pCube6
+    3300028: pCube7
+    3300030: pCube8
+    3300032: Stage_RPG_wall 1
+    3300034: Stage_RPG_wall10
+    3300036: Stage_RPG_wall11
+    3300038: Stage_RPG_wall12
+    3300040: Stage_RPG_wall13
+    3300042: Stage_RPG_wall4
+    3300044: Stage_RPG_wall5
+    3300046: Stage_RPG_wall6
+    3300048: Stage_RPG_wall7
+    3300050: Stage_RPG_wall9
+    4300000: Stage_RPG_wall
+    4300002: pCube1
+    4300004: pCube2
+    4300006: Stage_RPG_wall4
+    4300008: pCube3
+    4300010: pCube4
+    4300012: Stage_RPG_wall5
+    4300014: pCube5
+    4300016: pCube6
+    4300018: Stage_RPG_wall6
+    4300020: pCube7
+    4300022: pCube8
+    4300024: Stage_RPG_wall7
+    4300026: Stage_RPG_wall9
+    4300028: Stage_RPG_wall10
+    4300030: pCube11
+    4300032: pCube12
+    4300034: Stage_RPG_wall11
+    4300036: pCube13
+    4300038: pCube14
+    4300040: Stage_RPG_wall12
+    4300042: pCube15
+    4300044: pCube16
+    4300046: Stage_RPG_wall13
+    4300048: pCube17
+    4300050: pCube18
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
