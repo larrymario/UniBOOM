@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Uniboom.Player;
+using Uniboom.Director;
 
 namespace Uniboom.Enemy { 
 
@@ -8,14 +9,17 @@ namespace Uniboom.Enemy {
 
         public Transform corpse;
 
+        private StageDirector stageDirector;
         private Rigidbody enemyRigidbody;
 
         public void GetDamaged() {
+            stageDirector.GetCurrentRoom().RemoveEnemy(transform);
             Instantiate(corpse, transform.position, transform.rotation);
             Destroy(gameObject);
         }
 
         void Awake() {
+            stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
             enemyRigidbody = GetComponent<Rigidbody>();
         }
 
@@ -37,6 +41,24 @@ namespace Uniboom.Enemy {
                 unitychan.GetComponent<Unitychan>().GetDamaged(false, 2);
             }
         }
+
+        /*
+        void OnTriggerStay(Collider other) {
+            if (other.gameObject.tag == "Player") {
+                
+
+                Transform unitychan = other.transform;
+                while (unitychan.GetComponent<Unitychan>() == null) {
+                    unitychan = unitychan.parent;
+                }
+                unitychan.GetComponent<Unitychan>().GetDamaged(false, 2);
+            }
+        }
+
+        void onTriggerEnter(Collider other) {
+            print("s");
+        }
+        */
     }
 
     public enum EnemyState {

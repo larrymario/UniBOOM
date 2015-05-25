@@ -54,6 +54,7 @@ namespace Uniboom.Player {
 
         public void SetControllability(bool value) {
             this.isControllable = value;
+            
         }
 
         public void BombCountDown() {
@@ -268,14 +269,14 @@ namespace Uniboom.Player {
                         isControllable = false;
                         vitalState = VitalState.Damaged;
                         ucAnimator.SetTrigger("IsHit");
-                        freezeTime = 65;
+                        freezeTime = 80;
                     }
                     if (isCrushed) {
                         vitalStateTimer = 0;
                         isControllable = false;
                         vitalState = VitalState.Damaged;
                         ucAnimator.SetTrigger("IsCrushed");
-                        freezeTime = 60;
+                        freezeTime = 100;
                     }
                     if (isDying) {
                         vitalStateTimer = 0;

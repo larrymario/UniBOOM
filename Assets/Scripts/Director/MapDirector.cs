@@ -77,7 +77,7 @@ namespace Uniboom.Director {
                 }
             }
 
-            stageDirector.SetCurrentRoom(GameObject.Find("Room_7_7").GetComponent<Room>());
+            //stageDirector.SetCurrentRoom(GameObject.Find("Room_7_7").GetComponent<Room>());
             unitychan.SetParent(GameObject.Find("Room_7_7").transform);
             unitychan.localPosition = new Vector3((float)roomSize / 2f, 0f, 0.5f);
 
@@ -154,7 +154,7 @@ namespace Uniboom.Director {
 
         }
 
-        private void GenerateRoom(int x, int z, int type, uint door) {  //door 
+        private void GenerateRoom(int x, int z, int type, uint doorDirection) {  //door 
             GameObject roomObj = new GameObject();
             roomObj.transform.position = new Vector3(x * occupiedSize, 0, z * occupiedSize);
             roomObj.transform.rotation = Quaternion.Euler(Vector3.zero);
@@ -202,9 +202,16 @@ namespace Uniboom.Director {
                         rot = new Vector3(0, 180, 0);
                         break;
                 }
-                if ((door & i) > 0) {
+                if ((doorDirection & i) > 0) {
                     wallObj = (Transform)Instantiate(doorWall);
                     wallObj.name = "DoorWall_" + orientionName;
+                    Transform doorObj = (Transform)Instantiate(door);
+                    doorObj.SetParent(wallObj.transform);
+                    doorObj.localPosition = new Vector3(roomSize / 2f, 0.02f, 0f);
+                    roomObj.GetComponent<Room>().AddDoor(doorObj);
+                    Transform corridorObj = (Transform)Instantiate(corridor);
+                    corridorObj.SetParent(wallObj.transform);
+                    corridorObj.localPosition = new Vector3((roomSize / 2f) - 1.5f, 0f, 0f);
                 }
                 else {
                     wallObj = (Transform)Instantiate(wall);

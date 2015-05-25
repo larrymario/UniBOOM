@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Uniboom.Player;
 
 namespace Uniboom.Enemy { 
 
@@ -97,11 +98,29 @@ namespace Uniboom.Enemy {
             return 90f * Random.Range(0, 4);
         }
 
+        /*
         void OnCollisionEnter(Collision col) {
             if (col.gameObject.tag != "Player") {
                 colliderHitTrigger = true;
             }
         }
+        */
+        
+        void OnTriggerEnter(Collider other) {
+
+            if (other.gameObject.tag != "Player") {
+                colliderHitTrigger = true;
+            }
+            else {
+
+                Transform unitychan = other.transform;
+                while (unitychan.GetComponent<Unitychan>() == null) {
+                    unitychan = unitychan.parent;
+                }
+                unitychan.GetComponent<Unitychan>().GetDamaged(false, 2);
+            }
+        }
+        
     }
 
 }

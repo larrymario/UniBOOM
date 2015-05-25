@@ -41,7 +41,7 @@ ModelImporter:
     4300006: pPlane4
     4300008: pPlane5
     4300010: pPlane6
-    7400000: Take 001
+    7400000: Undefined
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -60,10 +60,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Undefined
       takeName: Take 001
       firstFrame: 1
-      lastFrame: 48
+      lastFrame: 96
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -85,21 +85,17 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: Enemy_Cyber_Undefined
+      - path: pPlane1
         weight: 1
-      - path: Enemy_Cyber_Undefined1
+      - path: pPlane2
         weight: 1
-      - path: Enemy_Cyber_Undefined1/pPlane1
+      - path: pPlane3
         weight: 1
-      - path: Enemy_Cyber_Undefined1/pPlane2
+      - path: pPlane4
         weight: 1
-      - path: Enemy_Cyber_Undefined1/pPlane3
+      - path: pPlane5
         weight: 1
-      - path: Enemy_Cyber_Undefined1/pPlane4
-        weight: 1
-      - path: Enemy_Cyber_Undefined1/pPlane5
-        weight: 1
-      - path: Enemy_Cyber_Undefined1/pPlane6
+      - path: pPlane6
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}

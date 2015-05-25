@@ -42,7 +42,8 @@ namespace Uniboom.Director {
         }
 
         public void SetCurrentRoom(Room room) {
-            if (room != currentRoom) { 
+            if (room != currentRoom) {
+                unitychan.transform.SetParent(room.transform);
                 room.SetActive();
                 this.currentRoom = room;
             }
@@ -81,10 +82,11 @@ namespace Uniboom.Director {
                     break;
                 case GameState.Prelude:
                     if (stateTimer < 50) {
-
+                        
                     }
-                    else { 
+                    if (stateTimer >= 50) { 
                         unitychan.GetComponent<Unitychan>().SetControllability(true);
+                        SetCurrentRoom(GameObject.Find("Room_7_7").GetComponent<Room>());
                         gameState = GameState.Normal;
                     }
                     stateTimer++;
