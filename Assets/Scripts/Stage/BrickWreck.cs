@@ -5,6 +5,7 @@ namespace Uniboom.Stage {
 
     public class BrickWreck : MonoBehaviour {
 
+        public int repelForce;
         public int disappearTime;
         public float deadSpeed;
         public int forceDisappearTime;
@@ -17,8 +18,8 @@ namespace Uniboom.Stage {
             timer = 0;
 
             brickRigidbody = GetComponent<Rigidbody>();
-            brickRigidbody.AddForce(new Vector3(Random.Range(500f, 1500f), Random.Range(500f, 1500f), Random.Range(500f, 1500f)));
-            brickRigidbody.AddTorque(new Vector3(Random.Range(500f, 1500f), Random.Range(500f, 1500f), Random.Range(500f, 1500f)), ForceMode.Force);
+            brickRigidbody.AddForce(Random.onUnitSphere * repelForce);
+            brickRigidbody.AddTorque(Random.onUnitSphere * repelForce, ForceMode.Force);
         }
 
         // Update is called once per frame

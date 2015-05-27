@@ -27,6 +27,10 @@ namespace Uniboom.Camera {
         private float phi;
         private float theta;
 
+        public float getRadius() {
+            return radius;
+        }
+
         void Start() {
             radius = initialRadius;
             phi = initialPhi;

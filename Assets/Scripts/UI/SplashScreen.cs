@@ -1,15 +1,47 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SplashScreen : MonoBehaviour {
+namespace Uniboom.UI { 
 
-    // Use this for initialization
-    void Start() {
+    public class SplashScreen : MonoBehaviour {
+
+        private AsyncOperation loading;
+        private Animator canvasAnimator;
+
+        public void SayUnityChan() {
+            GetComponent<AudioSource>().Play();
+        }
+
+        public IEnumerator LoadTitle() {
+            canvasAnimator.SetTrigger("Load");
+            loading = Application.LoadLevelAsync("Title");
+            
+            loading.allowSceneActivation = false;
+            yield return 0;
+        }
+
+        public void GotoTitle() {
+            loading.allowSceneActivation = true;
+        }
+
+        void Awake() {
+            canvasAnimator = GetComponent<Animator>();
+        }
+
+        void Update() {
+            if (loading != null) {
+                Debug.Log(loading.progress);
+            }
+
+            if (loading != null && loading.progress == 0.9f) {
+                canvasAnimator.SetTrigger("Complete");
+            }
+        }
+
+        
+
+        
 
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
 }

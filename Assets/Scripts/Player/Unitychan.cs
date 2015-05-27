@@ -84,6 +84,14 @@ namespace Uniboom.Player {
             
         }
 
+        public void RecoverFromDamage() {
+            isControllable = true;
+            vitalState = VitalState.Normal;
+            invinTimer = 0;
+            isHit = false;
+            isCrushed = false;
+        }
+
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
             ucRigidbody = GetComponent<Rigidbody>();
@@ -160,10 +168,10 @@ namespace Uniboom.Player {
         }
 
         private void GetInput() {
-            //if (!fireInputHold) {
-            fireInputTrigger = Input.GetAxis("Fire") > 0.001f ? true : false;
-            //}
-            //fireInputHold = Input.GetAxis("Fire") > 0.001f ? true : false;
+            if (!fireInputHold) {
+                fireInputTrigger = Input.GetAxis("Fire") > 0.001f ? true : false;
+            }
+            fireInputHold = Input.GetAxis("Fire") > 0.001f ? true : false;
             dashInput = Input.GetAxis("Dash") > 0.001f ? true : false;
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
@@ -255,7 +263,7 @@ namespace Uniboom.Player {
                         bombClone.GetComponent<Bomb>().remainingWave = maxFire;
                         //bombClone.GetComponent<Bomb>().stageDirector = stageDirector;
                         //bombClone.parent = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
-                        //fireInputTrigger = false;
+                        fireInputTrigger = false;
                     }
                 }
             }
@@ -288,6 +296,7 @@ namespace Uniboom.Player {
                     }
                     break;
                 case VitalState.Damaged:
+                    /*
                     if (vitalStateTimer == freezeTime) {
                         isControllable = true;
                         vitalState = VitalState.Normal;
@@ -296,6 +305,7 @@ namespace Uniboom.Player {
                         isCrushed = false;
                     }
                     vitalStateTimer++;
+                    */ 
                     break;
                 case VitalState.Dying:
                     

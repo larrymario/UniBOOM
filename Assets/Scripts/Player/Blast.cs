@@ -95,6 +95,7 @@ namespace Uniboom.Player {
                     remainingWave = 0;
                     currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, null);
                     spaceObj.GetComponent<Brick>().Shatter();
+                    Destroy(gameObject);
                 }
                 else if (spaceObj.tag == "Bomb") {
                     //Spread to a bomb
