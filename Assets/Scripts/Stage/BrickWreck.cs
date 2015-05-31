@@ -18,8 +18,8 @@ namespace Uniboom.Stage {
             timer = 0;
 
             brickRigidbody = GetComponent<Rigidbody>();
-            brickRigidbody.AddForce(Random.onUnitSphere * repelForce);
-            brickRigidbody.AddTorque(Random.onUnitSphere * repelForce, ForceMode.Force);
+            brickRigidbody.AddForce(Random.insideUnitSphere * repelForce);
+            brickRigidbody.AddTorque(Random.insideUnitSphere * repelForce, ForceMode.Force);
         }
 
         // Update is called once per frame

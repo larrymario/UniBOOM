@@ -149,8 +149,10 @@ namespace Uniboom.Player {
                         if (HPCount < maxHP) HPCount++;
                         break;
                     case ItemType.MaxHP:
-                        maxHP++;
-                        HPCount++;
+                        if (maxHP < 15) { 
+                            maxHP++;
+                            HPCount++;
+                        }
                         break;
                     default:
 
@@ -162,7 +164,7 @@ namespace Uniboom.Player {
 
         private void LoadStatus() {
             maxFire = 1;
-            maxBomb = 30;
+            maxBomb = 2;
             maxStamina = 10f;
             maxHP = 5;
         }

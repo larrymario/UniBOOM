@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Uniboom.Director;
 
 namespace Uniboom.UI { 
 
@@ -29,10 +30,6 @@ namespace Uniboom.UI {
         }
 
         void Update() {
-            if (loading != null) {
-                Debug.Log(loading.progress);
-            }
-
             if (loading != null && loading.progress == 0.9f) {
                 canvasAnimator.SetTrigger("Complete");
             }

@@ -46,7 +46,7 @@ ModelImporter:
     4300004: polySurface14
     4300006: polySurface16
     4300008: polySurface17
-    7400000: Take 001
+    7400000: Item_Bomb
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -63,7 +63,55 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Item_Bomb
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 72
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: joint5
+        weight: 1
+      - path: joint5/joint1
+        weight: 1
+      - path: joint5/joint1/polySurface10
+        weight: 1
+      - path: joint5/joint2
+        weight: 1
+      - path: joint5/joint2/polySurface12
+        weight: 1
+      - path: joint5/joint3
+        weight: 1
+      - path: joint5/joint3/polySurface14
+        weight: 1
+      - path: joint5/joint4
+        weight: 1
+      - path: joint5/joint4/polySurface16
+        weight: 1
+      - path: joint5/polySurface17
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
