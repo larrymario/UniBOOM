@@ -8,15 +8,18 @@ namespace Uniboom.Stage {
 
         public int roomType;                //1: Normal  2: Boss
 
+        private int posX;
+        private int posY;
         private int size;
         private int sizeX;
         private int sizeY;
         private Transform error;            //Error response of GetSpace
         private List<Transform> spaceMat;
-        private List<int> enemyPosList;
+        private List<EnemyEntry> enemyEntryList;
         private List<Transform> enemyList;
         private List<Transform> doorList;
         private StageDirector stageDirector;
+        private MapDirector mapDirector;
         private bool isClear;
 
         public void InitializeMat() {
@@ -28,6 +31,15 @@ namespace Uniboom.Stage {
                     spaceMat.Add(null);
                 }
             }
+        }
+
+        public Vector2 GetPosition() {
+            return new Vector2(posX, posY);
+        }
+
+        public void SetPosition(int x, int y) {
+            posX = x;
+            posY = y;
         }
 
         public Transform GetSpace(int x, int y) {
@@ -63,11 +75,26 @@ namespace Uniboom.Stage {
                 foreach (Transform t in doorList) {
                     t.GetComponent<Door>().SetDoorState(DoorState.Open);
                 }
+                if (roomType == 1) { 
+                    int itemDropPos;
+                    do {
+                        itemDropPos = Random.Range(0, spaceMat.Count);
+                    } while (spaceMat[itemDropPos] != null);
+
+                    Transform item = (Transform)Instantiate(stageDirector.GetRandomItem());
+                    item.SetParent(stageDirector.GetCurrentRoom().transform);
+                    item.transform.localPosition = new Vector3((float)(itemDropPos / size) + 0.5f, 0f, (float)(itemDropPos % size) + 0.5f);
+                }
+                else if (roomType == 2) {
+                    Transform clearZone = (Transform)Instantiate(mapDirector.clearZone);
+                    clearZone.SetParent(stageDirector.GetCurrentRoom().transform);
+                    clearZone.transform.localPosition = new Vector3((float)size / 2, 0.75f, (float)size / 2);
+                }
             }
         }
 
         public void GenerateEnemyList() {
-            enemyPosList = new List<int>();
+            enemyEntryList = new List<EnemyEntry>();
             int enemyCount = Random.Range(stageDirector.minRoomEnemy, stageDirector.maxRoomEnemy + 1);
             List<int> emptySpaceList = new List<int>();
             for (int i = 0; i < spaceMat.Count; i++) {
@@ -79,13 +106,39 @@ namespace Uniboom.Stage {
 
             }
             if (enemyCount >  emptySpaceList.Count) enemyCount = emptySpaceList.Count;
-
+            
             for (int i = 0; i < enemyCount; i++) {
                 int index = Random.Range(0, emptySpaceList.Count);
-                enemyPosList.Add(emptySpaceList[index]);
+                int enemyType = Random.Range(0, stageDirector.enemyList.Count);
+                enemyEntryList.Add(new EnemyEntry(emptySpaceList[index] / size, emptySpaceList[index] % size, enemyType));
                 emptySpaceList.RemoveAt(index);
             }
             emptySpaceList.Clear();
+        }
+
+        public void GenerateEnemyListByPattern(string pattern) {
+            enemyEntryList = new List<EnemyEntry>();
+            for (int i = 0; i < sizeX; i++) {
+                for (int j = 0; j < sizeY; j++) {
+                    switch (pattern[i * sizeX + j]) {
+                        case 'a':
+                            enemyEntryList.Add(new EnemyEntry(i, j, 0));
+                            break;
+                        case 'b':
+                            enemyEntryList.Add(new EnemyEntry(i, j, 1));
+                            break;
+                        case 'c':
+                            enemyEntryList.Add(new EnemyEntry(i, j, 2));
+                            break;
+                        case 'd':
+                            enemyEntryList.Add(new EnemyEntry(i, j, 3));
+                            break;
+                        default:
+
+                            break;
+                    }
+                }
+            }
         }
 
         public void SetActive() {
@@ -128,6 +181,7 @@ namespace Uniboom.Stage {
 
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
+            mapDirector = GameObject.Find("Map_Generator").GetComponent<MapDirector>();
             doorList = new List<Transform>();
             enemyList = new List<Transform>();
             error = GameObject.Find("Error").transform;
@@ -140,10 +194,10 @@ namespace Uniboom.Stage {
         }
 
         private void GenerateEnemy() {
-            for (int i = 0; i < enemyPosList.Count; i++) {
-                AddEnemy(stageDirector.enemyList[Random.Range(0, stageDirector.enemyList.Count)],
-                         (float)(enemyPosList[i] / size) + 0.5f,
-                         (float)(enemyPosList[i] % size) + 0.5f);
+            for (int i = 0; i < enemyEntryList.Count; i++) {
+                AddEnemy(stageDirector.enemyList[enemyEntryList[i].enemyType],
+                         (float)(enemyEntryList[i].posX) + 0.5f,
+                         (float)(enemyEntryList[i].posY) + 0.5f);
                 /*
                 Transform enemyClone = stageDirector.enemyList[Random.Range(0, stageDirector.enemyList.Count)];
                 enemyClone.SetParent(transform);
@@ -183,4 +237,15 @@ namespace Uniboom.Stage {
         */
     }
 
+    public struct EnemyEntry {
+        public int posX;
+        public int posY;
+        public int enemyType;
+
+        public EnemyEntry(int posX, int posY, int enemyType) {
+            this.posX = posX;
+            this.posY = posY;
+            this.enemyType = enemyType;
+        }
+    }
 }

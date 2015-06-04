@@ -6,9 +6,13 @@ ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
     100000: //RootNode
+    100002: pSphere2
     400000: //RootNode
+    400002: pSphere2
     2300000: //RootNode
+    2300002: pSphere2
     3300000: //RootNode
+    3300002: pSphere2
     4300000: pSphere2
     9500000: //RootNode
   materials:

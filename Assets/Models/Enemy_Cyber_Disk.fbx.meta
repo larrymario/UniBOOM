@@ -23,8 +23,10 @@ ModelImporter:
     400014: persp1
     2300000: Enemy_Cyber_Disk
     2300002: pCube1
+    2300004: //RootNode
     3300000: Enemy_Cyber_Disk
     3300002: pCube1
+    3300004: //RootNode
     4300000: Enemy_Cyber_Disk
     4300002: pCube1
     7400000: Disk
@@ -71,7 +73,7 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: Enemy_Cyber_Disk
+      - path: pCube1
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}

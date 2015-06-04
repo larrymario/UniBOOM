@@ -22,6 +22,40 @@ namespace Uniboom.UI {
 
         public void ChooseStage(string stage) {
             selectedStage = stage;
+            PublicData.maxHP = 15;
+            PublicData.HP = 5;
+            switch (stage) {
+                case "Stage_1":
+                    PublicData.maxPower = 1;
+                    PublicData.maxBomb = 2;
+                    PublicData.maxStamina = 5f;
+                    break;
+                case "Stage_2":
+                    PublicData.maxPower = 2;
+                    PublicData.maxBomb = 3;
+                    PublicData.maxStamina = 6f;
+                    break;
+                case "Stage_3":
+                    PublicData.maxPower = 3;
+                    PublicData.maxBomb = 5;
+                    PublicData.maxStamina = 8f;
+                    break;
+                case "Stage_4":
+                    PublicData.maxPower = 4;
+                    PublicData.maxBomb = 7;
+                    PublicData.maxStamina = 10f;
+                    break;
+                case "Stage_5":
+                    PublicData.maxPower = 5;
+                    PublicData.maxBomb = 8;
+                    PublicData.maxStamina = 12f;
+                    break;
+                case "Stage_6":
+                    PublicData.maxPower = 6;
+                    PublicData.maxBomb = 10;
+                    PublicData.maxStamina = 15f;
+                    break;
+            }
             EnterPanel(-1);
         }
 

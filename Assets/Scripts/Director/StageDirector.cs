@@ -11,11 +11,13 @@ namespace Uniboom.Director {
         public List<Transform> itemList;
         public List<Transform> enemyList;
         public float brickExistProb;
-        public int stageNum;
+        public string stageName;
+        public string nextStageName;
         public int minRoomEnemy;
         public int maxRoomEnemy;
 
         private Unitychan unitychan;
+        private UIDirector uiDirector;
         private Room currentRoom;
         
         private GameState gameState;
@@ -27,6 +29,7 @@ namespace Uniboom.Director {
 
         public void SetGameState(GameState state) {
             this.gameState = state;
+            stateTimer = 0;
         }
 
         public int GetStateTimer() {
@@ -46,6 +49,7 @@ namespace Uniboom.Director {
                 unitychan.transform.SetParent(room.transform);
                 room.SetActive();
                 this.currentRoom = room;
+                uiDirector.SetRoomName("Room " + room.GetPosition().x + "-" + room.GetPosition().y);
             }
         }
 
@@ -58,15 +62,17 @@ namespace Uniboom.Director {
             Random.seed = (int)System.DateTime.Now.ToBinary();
 
             unitychan = GameObject.Find("SD_unitychan_generic").transform.GetComponent<Unitychan>();
-            //currentRoom = GameObject.Find("Room_1").transform.GetComponent<Room>();
+            uiDirector = GameObject.Find("UI_Director").transform.GetComponent<UIDirector>();
         }
 
         void Start() {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             gameState = GameState.Prelude;
+            stateTimer = 0;
 
             if (debug) {
+
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 gameState = GameState.Normal;
@@ -81,6 +87,7 @@ namespace Uniboom.Director {
 
                     break;
                 case GameState.Prelude:
+                    /*
                     if (stateTimer < 50) {
                         
                     }
@@ -90,9 +97,18 @@ namespace Uniboom.Director {
                         gameState = GameState.Normal;
                     }
                     stateTimer++;
+                    */ 
                     break;
                 case GameState.Normal:
+                    if (stateTimer == 0) {
+                        unitychan.GetComponent<Unitychan>().SetControllability(true);
+                        SetCurrentRoom(GameObject.Find("Room_7_7").GetComponent<Room>());
+                        gameState = GameState.Normal;
+                    }
 
+                    if (stateTimer < 100) {
+                        stateTimer++;
+                    }
                     break;
                 case GameState.Paused:
 
@@ -116,7 +132,7 @@ namespace Uniboom.Director {
 
             
             if (Input.GetKeyDown("r")) {
-                Application.LoadLevel("Level_5");
+                Application.LoadLevel(stageName);
             }
             if (Input.GetKeyDown("escape")) {
                 Application.Quit();

@@ -13,6 +13,11 @@ namespace Uniboom.Player {
         public float runSpeed;
         public float dashSpeed;
 
+        public int testPower;
+        public int testBomb;
+        public float testStamina;
+        public int testHP;
+
         private float horizontalInput;
         private float verticalInput;
         private bool fireInputTrigger;
@@ -31,7 +36,7 @@ namespace Uniboom.Player {
         private int invinTimer;
         private int freezeTime;
 
-        private int maxFire;
+        private int maxPower;
         private int maxBomb;
         private float maxStamina;
         private int maxHP;
@@ -45,6 +50,7 @@ namespace Uniboom.Player {
         private float posY;
 
         private StageDirector stageDirector;
+        private UIDirector uiDirector;
         private Rigidbody ucRigidbody;
         private Animator ucAnimator;
 
@@ -80,6 +86,7 @@ namespace Uniboom.Player {
                         isHit = true;
                     }
                 }
+                uiDirector.SetStatusText(ItemType.Heal, HPCount);
             }
             
         }
@@ -94,6 +101,7 @@ namespace Uniboom.Player {
 
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
+            uiDirector = GameObject.Find("UI_Director").GetComponent<UIDirector>();
             ucRigidbody = GetComponent<Rigidbody>();
             ucAnimator = GetComponent<Animator>();
         }
@@ -113,7 +121,6 @@ namespace Uniboom.Player {
             freezeTime = 80;
             
             bombCount = maxBomb;
-            HPCount = maxHP;
             staminaCount = maxStamina;
         }
 
@@ -132,21 +139,25 @@ namespace Uniboom.Player {
 
         void OnTriggerEnter(Collider other) {
             if (other.tag == "Item") {
-                Item item = other.transform.root.GetComponent<Item>();
+                Item item = other.transform.GetComponentInParent<Item>();
                 switch (item.itemType) {
                     case ItemType.Power:
-                        maxFire++;
+                        maxPower++;
+                        uiDirector.SetStatusText(ItemType.Power, maxPower);
                         break;
                     case ItemType.Bomb:
                         maxBomb++;
                         bombCount++;
+                        uiDirector.SetStatusText(ItemType.Bomb, maxBomb);
                         break;
                     case ItemType.Stamina:
                         maxStamina += 2f;
                         staminaCount += 2f;
+                        uiDirector.SetStaminaBar(staminaCount, maxStamina);
                         break;
                     case ItemType.Heal:
                         if (HPCount < maxHP) HPCount++;
+                        uiDirector.SetStatusText(ItemType.Heal, HPCount);
                         break;
                     case ItemType.MaxHP:
                         if (maxHP < 15) { 
@@ -163,10 +174,15 @@ namespace Uniboom.Player {
         }
 
         private void LoadStatus() {
-            maxFire = 1;
-            maxBomb = 2;
-            maxStamina = 10f;
-            maxHP = 5;
+            maxPower = testPower >= 0 ? testPower : PublicData.maxPower;
+            uiDirector.SetStatusText(ItemType.Power, maxPower);
+            maxBomb = testBomb >= 0 ? testBomb : PublicData.maxBomb;
+            uiDirector.SetStatusText(ItemType.Bomb, maxBomb);
+            maxStamina = testStamina >= 0f ? testStamina : PublicData.maxStamina;
+            uiDirector.SetStaminaBar(maxStamina, maxStamina);
+            maxHP = 15;
+            HPCount = testHP >= 0 ? testHP : PublicData.HP;
+            uiDirector.SetStatusText(ItemType.Heal, HPCount);
         }
 
         private void GetInput() {
@@ -262,7 +278,7 @@ namespace Uniboom.Player {
                         Transform bombClone = (Transform)Instantiate(bomb, pos, Quaternion.Euler(Vector3.zero));
                         //bombClone.name = "Bomb_" + (int)transform.position.x + "_" + (int)transform.position.y;
                         bombClone.GetComponent<Bomb>().player = transform;
-                        bombClone.GetComponent<Bomb>().remainingWave = maxFire;
+                        bombClone.GetComponent<Bomb>().remainingWave = maxPower;
                         //bombClone.GetComponent<Bomb>().stageDirector = stageDirector;
                         //bombClone.parent = stageDirector.GetComponent<StageDirector>().GetCurrentRoom();
                         fireInputTrigger = false;

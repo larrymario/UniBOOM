@@ -12,8 +12,12 @@ namespace Uniboom.Player {
         public int explodeDelay;
         public int remainingWave;
         public int spreadDelay;
+        public Material bombMat;
+        public Material bombMatTrans;
+        public MeshRenderer mesh;
 
-        public StageDirector stageDirector;
+
+        private StageDirector stageDirector;
         private Room currentRoom;
         private int timer;
 
@@ -34,12 +38,13 @@ namespace Uniboom.Player {
 
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").transform.GetComponent<StageDirector>();
-            transform.SetParent(stageDirector.GetCurrentRoom().transform);
-            currentRoom = stageDirector.GetCurrentRoom();
+            
         }
 
         void Start() {
             timer = 0;
+            transform.SetParent(stageDirector.GetCurrentRoom().transform);
+            currentRoom = stageDirector.GetCurrentRoom();
             currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
         }
 
@@ -52,6 +57,7 @@ namespace Uniboom.Player {
 
         void OnTriggerExit(Collider other) {
             if (other.transform.tag == "Player") {
+                mesh.material = bombMat;
                 GetComponent<BoxCollider>().isTrigger = false;
             }
         }

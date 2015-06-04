@@ -1,20 +1,70 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Uniboom.Player;
 
 namespace Uniboom.Director { 
 
     public class UIDirector : MonoBehaviour {
 
         private StageDirector stageDirector;
-
+        private AudioDirector audioDirector;
         private Canvas UICanvas;
         private Image mask;
+        private Slider staminaBar;
+        private Text HPCount;
+        private Text powerCount;
+        private Text bombCount;
+        private Text score;
+        private Text roomName;
+
+        public void PlayBGM() {
+            audioDirector.PlayBGM();
+        }
+        
+        public void SetGameState(GameState state) {
+            stageDirector.SetGameState(state);
+        }
+
+        public void SetStatusText(ItemType type, int count) {
+            Text text = null;
+            switch (type) {
+                case ItemType.Bomb:
+                    text = bombCount;
+                    break;
+                case ItemType.Heal:
+                    text = HPCount;
+                    break;
+                case ItemType.Power:
+                    text = powerCount;
+                    break;
+            }
+            text.text = count.ToString();
+        }
+
+        public void SetStaminaBar(float current, float max) {
+
+        }
+
+        public void SetScore(int score) {
+
+        }
+
+        public void SetRoomName(string name) {
+            roomName.text = name;
+        }
 
         void Awake() {
-            stageDirector = transform.parent.GetComponent<StageDirector>();
-            UICanvas = GameObject.Find("UICanvas").GetComponent<Canvas>();
-            mask = UICanvas.transform.Find("Mask").GetComponent<Image>();
+            stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
+            audioDirector = GameObject.Find("Audio_Director").GetComponent<AudioDirector>();
+            UICanvas = GameObject.Find("UI_Canvas").GetComponent<Canvas>();
+            mask = GameObject.Find("Mask").GetComponent<Image>();
+            staminaBar = GameObject.Find("Stamina_Bar").GetComponent<Slider>();
+            HPCount = GameObject.Find("HP_Count").GetComponent<Text>();
+            powerCount = GameObject.Find("Power_Count").GetComponent<Text>();
+            bombCount = GameObject.Find("Bomb_Count").GetComponent<Text>();
+            score = GameObject.Find("Score").GetComponent<Text>();
+            roomName = GameObject.Find("Room_Name").GetComponent<Text>();
         }
 
         void Start() {
@@ -26,13 +76,15 @@ namespace Uniboom.Director {
         void Update() {
             switch (stageDirector.GetGameState()) {
                 case GameState.Prelude:
+                    /*
                     if (stageDirector.GetStateTimer() < 50) {
+                        
                         mask.color = new Color(mask.color.r, mask.color.b, mask.color.b, 1f - ((float)stageDirector.GetStateTimer() + 1) / 50f);
                     }
                     else {
                         mask.gameObject.SetActive(false);
                     }
-                    
+                    */
                     break;
                 case GameState.Normal:
 

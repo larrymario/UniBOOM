@@ -16,7 +16,6 @@ namespace Uniboom.Director {
 
         public TextAsset patternListFile;
         
-
         public Transform ground;
         public Transform wall;
         public Transform doorWall;
@@ -24,6 +23,7 @@ namespace Uniboom.Director {
         public Transform block;
         public Transform brick;
         public Transform corridor;
+        public Transform clearZone;
 
         private int occupiedSize;
         private StageDirector stageDirector;
@@ -81,24 +81,6 @@ namespace Uniboom.Director {
             unitychan.SetParent(GameObject.Find("Room_7_7").transform);
             unitychan.localPosition = new Vector3((float)roomSize / 2f, 0f, 0.5f);
 
-            /*
-            globalMap[7, 8] = 1;
-            globalMap[7, 9] = 1;
-            globalMap[7, 10] = 1;
-            globalMap[7, 11] = 1;
-            globalMap[7, 6] = 1;
-            globalMap[6, 7] = 1;
-            globalMap[8, 7] = 1;
-            
-            for (int i = 0; i < 15; i++) {
-                for (int j = 0; j < 15; j++) {
-                    if (globalMap[i, j] != 0) {
-                        GenerateRoom(i, j, globalMap[i, j], 15);
-                    }
-                }
-            }
-            
-            */
 
         }
 
@@ -161,6 +143,7 @@ namespace Uniboom.Director {
             roomObj.name = "Room_" + x + "_" + z;
             roomObj.AddComponent<Room>();
             roomObj.GetComponent<Room>().roomType = type;
+            roomObj.GetComponent<Room>().SetPosition(x, z);
             roomObj.GetComponent<Room>().SetSize(roomSize);
             roomObj.GetComponent<Room>().InitializeMat();
 
@@ -233,7 +216,13 @@ namespace Uniboom.Director {
             brickSetObj.transform.localPosition = Vector3.zero;
             brickSetObj.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
-            string pattern = patternList[Random.Range(1, patternList.Count)];   //0 for boss room
+            string pattern = "";
+            if (type == 1) {            //Normal Room
+                pattern = patternList[Random.Range(1, patternList.Count)];
+            }
+            else if (type == 2) {                      //Boss Room
+                pattern = patternList[0]; 
+            }
             for (int i = 0; i < roomSize; i++) {
                 for (int j = 0; j < roomSize; j++) {
                     char spaceType = pattern[roomSize * i + j];
@@ -250,7 +239,7 @@ namespace Uniboom.Director {
                         }
                         else if (spaceType == '2') {
                             float existence = Random.Range(0f, 1f);
-                            if (existence < stageDirector.brickExistProb) { 
+                            if ((existence < stageDirector.brickExistProb) || (type == 2) ) { 
                                 bObj = (Transform)Instantiate(brick);
                                 bObj.name = "Brick_" + i + "_" + j;
                                 bObj.SetParent(brickSetObj.transform);
@@ -258,13 +247,19 @@ namespace Uniboom.Director {
                                 bObj.localRotation = Quaternion.Euler(Vector3.zero);
                                 roomObj.GetComponent<Room>().SetSpace(i, j, bObj);
                             }
+
                             //bObj.GetComponent<Brick>().SetCurrentRoom(roomObj.transform.GetComponent<Room>());
                         }
                     }
                 }
             }
 
-            roomObj.GetComponent<Room>().GenerateEnemyList();
+            if (type == 1) { 
+                roomObj.GetComponent<Room>().GenerateEnemyList();
+            }
+            else if (type == 2) {
+                roomObj.GetComponent<Room>().GenerateEnemyListByPattern(pattern);
+            }
         }
 
         private int RandomDirection() {
