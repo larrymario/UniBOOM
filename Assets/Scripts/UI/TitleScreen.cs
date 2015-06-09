@@ -24,6 +24,7 @@ namespace Uniboom.UI {
             selectedStage = stage;
             PublicData.maxHP = 15;
             PublicData.HP = 5;
+            PublicData.score = 0;
             switch (stage) {
                 case "Stage_1":
                     PublicData.maxPower = 1;
@@ -96,10 +97,13 @@ namespace Uniboom.UI {
 
         void Awake() {
             canvasAnimator = GetComponent<Animator>();
+            PublicData.BGMVolume = 0.8f;
+            PublicData.SEVolume = 0.8f;
         }
 
         void Start() {
-
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
 
         void Update() {

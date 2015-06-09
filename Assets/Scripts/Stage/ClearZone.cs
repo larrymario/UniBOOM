@@ -12,17 +12,19 @@ namespace Uniboom.Stage {
         private int clearTimer;
         private StageDirector stageDirector;
 
+        void Awake() {
+            stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
+        }
+
         void Start() {
             clearTimer = 0;
         }
-
-    
 
         void OnTriggerStay(Collider other) {
             if (other.tag == "Player") { 
                 clearTimer++;
                 if (clearTimer == clearTime) {
-                    Debug.Log("clear");
+                    stageDirector.SetGameState(GameState.Clear);
                 }
             }
         }

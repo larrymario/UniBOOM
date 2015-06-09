@@ -153,7 +153,8 @@ namespace Uniboom.Stage {
         public void AddDoor(Transform room) {
             doorList.Add(room);
         }
-        
+
+        //Author: StevenChang
         public Stack<int> ComputeFloodFill(int startX, int startY, int finishX, int finishY) {
             Stack<int> route = new Stack<int>();
             List<int> routeMat = new List<int>(sizeX * sizeY);
@@ -162,8 +163,26 @@ namespace Uniboom.Stage {
                     routeMat.Add(0);
                 }
             }
-            routeMat[sizeX * startX + startY] = 1;
+            //routeMat[sizeX * startX + startY] = 1;
             Flood(routeMat, startX, startY, 1);
+            // Push
+            int finishValue = routeMat[sizeX * finishX + finishY];
+            int x = finishX;
+            int y = finishY;
+            for (int i = finishValue; i > 0; --i) {
+                if (routeMat[sizeX * (x - 1) + y] == i) {
+                    route.Push(0);
+                }
+                else if (routeMat[sizeX * (x + 1) + y] == i) {
+                    route.Push(1);
+                }
+                else if (routeMat[sizeX * x + (y - 1)] == i) {
+                    route.Push(2);
+                }
+                else if (routeMat[sizeX * x + (y + 1)] == i) {
+                    route.Push(3);
+                }
+            }
             return route;
         }
 

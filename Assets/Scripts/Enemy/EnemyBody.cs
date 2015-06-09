@@ -8,23 +8,41 @@ namespace Uniboom.Enemy {
     public class EnemyBody : MonoBehaviour {
 
         public Transform corpse;
+        public int score;
+
+        private Vector3 previousSpeed;
 
         private StageDirector stageDirector;
+        private UIDirector uiDirector;
         private Rigidbody enemyRigidbody;
 
         public void GetDamaged() {
             stageDirector.GetCurrentRoom().RemoveEnemy(transform);
             Instantiate(corpse, transform.position, transform.rotation);
+            uiDirector.SetScore(PublicData.score += score);
             Destroy(gameObject);
         }
 
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
+            uiDirector = GameObject.Find("UI_Director").GetComponent<UIDirector>();
             enemyRigidbody = GetComponent<Rigidbody>();
         }
 
-        void Start() {
+        public void OnPauseGame() {
+            GetComponent<Animator>().speed = 0;
+            previousSpeed = enemyRigidbody.velocity;
+            enemyRigidbody.velocity = Vector3.zero;
+        }
 
+        public void OnResumeGame() {
+            GetComponent<Animator>().speed = 1;
+            enemyRigidbody.velocity = previousSpeed;
+        }
+
+        void Start() {
+            stageDirector.OnPauseGameEvent += OnPauseGame;
+            stageDirector.OnResumeGameEvent += OnResumeGame;
         }
 
         public void Move(float speed, Vector3 rot) {

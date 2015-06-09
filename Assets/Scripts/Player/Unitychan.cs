@@ -13,11 +13,6 @@ namespace Uniboom.Player {
         public float runSpeed;
         public float dashSpeed;
 
-        public int testPower;
-        public int testBomb;
-        public float testStamina;
-        public int testHP;
-
         private float horizontalInput;
         private float verticalInput;
         private bool fireInputTrigger;
@@ -31,10 +26,8 @@ namespace Uniboom.Player {
         volatile private bool isDying;
         volatile private bool isInvincible;
         volatile private bool isDashable;
-        
-        private int vitalStateTimer;
-        private int invinTimer;
-        private int freezeTime;
+
+        private Vector3 previousSpeed;
 
         private int maxPower;
         private int maxBomb;
@@ -48,6 +41,8 @@ namespace Uniboom.Player {
         private float forwardAngle;
         private float posX;
         private float posY;
+
+
 
         private StageDirector stageDirector;
         private UIDirector uiDirector;
@@ -94,9 +89,34 @@ namespace Uniboom.Player {
         public void RecoverFromDamage() {
             isControllable = true;
             vitalState = VitalState.Normal;
-            invinTimer = 0;
+            //invinTimer = 0;
             isHit = false;
             isCrushed = false;
+        }
+
+        public void ExpireInvincibility() {
+            isInvincible = false;
+        }
+
+        public void SaveStatus() {
+            PublicData.maxPower = maxPower;
+            PublicData.maxBomb = maxBomb;
+            PublicData.HP = HPCount;
+            PublicData.maxHP = maxHP;
+            PublicData.maxStamina = maxStamina;
+        }
+
+        public void OnPauseGame() {
+            ucAnimator.speed = 0;
+            isControllable = false;
+            previousSpeed = ucRigidbody.velocity;
+            ucRigidbody.velocity = Vector3.zero;
+        }
+
+        public void OnResumeGame() {
+            ucAnimator.speed = 1;
+            isControllable = true;
+            ucRigidbody.velocity = previousSpeed;
         }
 
         void Awake() {
@@ -107,6 +127,9 @@ namespace Uniboom.Player {
         }
 
         void Start() {
+            stageDirector.OnPauseGameEvent += OnPauseGame;
+            stageDirector.OnResumeGameEvent += OnResumeGame;
+
             LoadStatus();
             isControllable = false;
             isCrushed = false;
@@ -116,12 +139,13 @@ namespace Uniboom.Player {
             isDashable = true;
             vitalState = VitalState.Normal;
 
-            vitalStateTimer = 0;
-            invinTimer = 0;
-            freezeTime = 80;
+            //vitalStateTimer = 0;
+            //invinTimer = 0;
+            //freezeTime = 80;
             
             bombCount = maxBomb;
             staminaCount = maxStamina;
+
         }
 
         void Update() {
@@ -140,6 +164,7 @@ namespace Uniboom.Player {
         void OnTriggerEnter(Collider other) {
             if (other.tag == "Item") {
                 Item item = other.transform.GetComponentInParent<Item>();
+                uiDirector.SetScore(PublicData.score += item.score);
                 switch (item.itemType) {
                     case ItemType.Power:
                         maxPower++;
@@ -174,15 +199,16 @@ namespace Uniboom.Player {
         }
 
         private void LoadStatus() {
-            maxPower = testPower >= 0 ? testPower : PublicData.maxPower;
+            maxPower = PublicData.maxPower;
             uiDirector.SetStatusText(ItemType.Power, maxPower);
-            maxBomb = testBomb >= 0 ? testBomb : PublicData.maxBomb;
+            maxBomb = PublicData.maxBomb;
             uiDirector.SetStatusText(ItemType.Bomb, maxBomb);
-            maxStamina = testStamina >= 0f ? testStamina : PublicData.maxStamina;
+            maxStamina = PublicData.maxStamina;
             uiDirector.SetStaminaBar(maxStamina, maxStamina);
             maxHP = 15;
-            HPCount = testHP >= 0 ? testHP : PublicData.HP;
+            HPCount = PublicData.HP;
             uiDirector.SetStatusText(ItemType.Heal, HPCount);
+            uiDirector.SetScore(PublicData.score);
         }
 
         private void GetInput() {
@@ -202,7 +228,7 @@ namespace Uniboom.Player {
             // Setting Unitychan forward
             //Vector3 cameraForward = ucCamera.transform.forward;
             forwardAngle = ucCamera.transform.localEulerAngles.y;
-
+            
             // Moving forward
             if (IsDKeyDown()) {
                 float speed = 0f;
@@ -215,6 +241,7 @@ namespace Uniboom.Player {
                     if (ucAnimator.speed != 1.5f) {
                         ucAnimator.speed = 1.5f;
                     }
+                    uiDirector.SetStaminaBar(staminaCount, maxStamina);
                 }
                 else {
                     speed = runSpeed;
@@ -291,21 +318,21 @@ namespace Uniboom.Player {
             switch (vitalState) {
                 case VitalState.Normal:
                     if (isHit) {
-                        vitalStateTimer = 0;
+                        //vitalStateTimer = 0;
                         isControllable = false;
                         vitalState = VitalState.Damaged;
                         ucAnimator.SetTrigger("IsHit");
-                        freezeTime = 80;
+                        //freezeTime = 80;
                     }
                     if (isCrushed) {
-                        vitalStateTimer = 0;
+                        //vitalStateTimer = 0;
                         isControllable = false;
                         vitalState = VitalState.Damaged;
                         ucAnimator.SetTrigger("IsCrushed");
-                        freezeTime = 100;
+                        //freezeTime = 100;
                     }
                     if (isDying) {
-                        vitalStateTimer = 0;
+                        //vitalStateTimer = 0;
                         isControllable = false;
                         vitalState = VitalState.Dying;
                         ucAnimator.SetTrigger("IsDying" + Random.Range(1, 3));
@@ -330,6 +357,7 @@ namespace Uniboom.Player {
                     break;
             }
 
+            /*
             if (isInvincible) {
                 if (invinTimer == 140) {
                     isInvincible = false;
@@ -337,10 +365,12 @@ namespace Uniboom.Player {
                 invinTimer++;
                 
             }
+            */ 
 
-            if (staminaCount < maxStamina) {
-                staminaCount += 0.05f;
+            if (staminaCount < maxStamina && !dashInput) {
+                staminaCount += 0.002f * maxStamina;
                 if (staminaCount > maxStamina) staminaCount = maxStamina;
+                uiDirector.SetStaminaBar(staminaCount, maxStamina);
             }
             if (!isDashable) {
                 if (staminaCount >= 0.5 * maxStamina && !dashInput) isDashable = true;

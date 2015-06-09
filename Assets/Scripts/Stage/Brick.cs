@@ -8,10 +8,12 @@ namespace Uniboom.Stage {
 
         //public float existProb;
         public float itemDropProb;
+        public int score;
         public Transform wreck;
         public Transform assignedItemDrop;      //null value yields a random drop
 
         private StageDirector stageDirector;
+        private UIDirector uiDirector;
         //private Room currentRoom;
 
         /*
@@ -21,6 +23,7 @@ namespace Uniboom.Stage {
         */ 
 
         public void Shatter() {
+            uiDirector.SetScore(PublicData.score += score);
             Instantiate(wreck, transform.position, transform.rotation);
             DropItem();            
             Destroy(gameObject);
@@ -28,6 +31,7 @@ namespace Uniboom.Stage {
 
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
+            uiDirector = GameObject.Find("UI_Director").GetComponent<UIDirector>();
             //currentRoom = transform.parent.parent;
         }
 

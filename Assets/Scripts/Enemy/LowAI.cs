@@ -14,7 +14,7 @@ namespace Uniboom.Enemy {
         private int stateTimer;
         private EnemyBody body;
         private Vector3 previousPos;
-        private bool integerMoveHelper;
+        private bool integerMoveHolder;
         private bool integerMoveTrigger;
         volatile private bool colliderHitTrigger;
 
@@ -25,7 +25,7 @@ namespace Uniboom.Enemy {
         void Start() {
             state = EnemyState.Walk;
             stateTimer = 0;
-            integerMoveHelper = false;
+            integerMoveHolder = false;
             integerMoveTrigger = false;
             colliderHitTrigger = false;
 
@@ -35,11 +35,11 @@ namespace Uniboom.Enemy {
         void FixedUpdate() {
             switch (state) {
                 case EnemyState.Walk:
-                    if (!integerMoveHelper) {
-                        integerMoveHelper = integerMoveTrigger = IsAtCross();
+                    if (!integerMoveHolder) {
+                        integerMoveHolder = integerMoveTrigger = IsAtCross();
                     }
                     else {
-                        integerMoveHelper = IsAtCross();
+                        integerMoveHolder = IsAtCross();
                     }
                     //print(IsPosInteger());
 

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
-using System.Collections;
+using Uniboom.Director;
 
 namespace Uniboom.Camera {
 
@@ -22,16 +21,34 @@ namespace Uniboom.Camera {
         
         public Transform unitychan;
 
-
+        private bool isPaused;
         private float radius;
         private float phi;
         private float theta;
+
+        private StageDirector stageDirector;
 
         public float getRadius() {
             return radius;
         }
 
+        public void OnPauseGame() {
+            isPaused = true;
+        }
+
+        public void OnResumeGame() {
+            isPaused = false;
+        }
+
+        void Awake() {
+            stageDirector = GameObject.Find("Stage_Director").GetComponent<StageDirector>();
+        }
+
         void Start() {
+            stageDirector.OnPauseGameEvent += OnPauseGame;
+            stageDirector.OnResumeGameEvent += OnResumeGame;
+
+            isPaused = false;
             radius = initialRadius;
             phi = initialPhi;
             theta = initialTheta;
@@ -39,15 +56,17 @@ namespace Uniboom.Camera {
         }
 
         void Update() {
-            theta -= Input.GetAxis("Mouse Y") * moveSensitivity;
-            phi += Input.GetAxis("Mouse X") * moveSensitivity;
-            radius -= Input.GetAxis("Mouse ScrollWheel") * wheelSensitivity;
-            if (theta > maxTheta) theta = maxTheta;
-            if (theta < minTheta) theta = minTheta;
-            if (radius > maxRadius) radius = maxRadius;
-            if (radius < minRadius) radius = minRadius;
+            if (!isPaused) { 
+                theta -= Input.GetAxis("Mouse Y") * moveSensitivity;
+                phi += Input.GetAxis("Mouse X") * moveSensitivity;
+                radius -= Input.GetAxis("Mouse ScrollWheel") * wheelSensitivity;
+                if (theta > maxTheta) theta = maxTheta;
+                if (theta < minTheta) theta = minTheta;
+                if (radius > maxRadius) radius = maxRadius;
+                if (radius < minRadius) radius = minRadius;
 
-            RotateCamera();
+                RotateCamera();
+            }
         }
 
         void RotateCamera() {

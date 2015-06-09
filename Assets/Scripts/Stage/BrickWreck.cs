@@ -22,7 +22,6 @@ namespace Uniboom.Stage {
             brickRigidbody.AddTorque(Random.insideUnitSphere * repelForce, ForceMode.Force);
         }
 
-        // Update is called once per frame
         void Update() {
             Vector3 velocity = brickRigidbody.velocity;
             if (velocity.x < deadSpeed && velocity.y < deadSpeed && velocity.z < deadSpeed) {

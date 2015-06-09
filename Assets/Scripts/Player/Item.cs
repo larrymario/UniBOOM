@@ -6,6 +6,7 @@ namespace Uniboom.Player {
     public class Item : MonoBehaviour {
 
         public ItemType itemType;
+        public int score;
         public int disappearTime;
 
         private int timer;

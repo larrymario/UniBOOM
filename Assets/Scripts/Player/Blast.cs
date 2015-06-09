@@ -10,7 +10,9 @@ namespace Uniboom.Player {
 
         public Transform flare;
         public Transform blast;
-        public int[] flareCountArray;
+        public int damageDelay;
+        public int existTime;
+        //public int[] flareCountArray;
 
         private StageDirector stageDirector;
         private Room currentRoom;
@@ -18,6 +20,8 @@ namespace Uniboom.Player {
         private int spreadDelay;
         private int spreadDirection;  //0:None 1:PX 2:NX 4:PZ 8:NZ
         private int timer;
+        private bool isSpaceCheck;
+        private bool isPaused;
 
         public void setSpreadDirection(int direction) {
             this.spreadDirection = direction;
@@ -31,6 +35,14 @@ namespace Uniboom.Player {
             this.remainingWave = wave;
         }
 
+        public void OnPauseGame() {
+            isPaused = true;
+        }
+
+        public void OnResumeGame() {
+            isPaused = false;
+        }
+
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").transform.GetComponent<StageDirector>();
             transform.SetParent(stageDirector.GetCurrentRoom().transform);
@@ -39,35 +51,54 @@ namespace Uniboom.Player {
         }
 
         void Start() {
-            timer = 0;
+            stageDirector.OnPauseGameEvent += OnPauseGame;
+            stageDirector.OnResumeGameEvent += OnResumeGame;
 
+            timer = 0;
+            isSpaceCheck = false;
+            isPaused = false;
             CheckSpaceStatus();
 
+            if (spreadDirection == 0) {
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         void FixedUpdate() {
-            GenerateFlare();
-            if (timer == spreadDelay) {
-               SpreadBlast(remainingWave, spreadDirection);
-            }
-            if (timer == flareCountArray.Length - 1) {
-                Destroy(gameObject);
-            }
+            if (!isPaused) {
+                if (timer >= damageDelay && !isSpaceCheck) {
+                    CheckSpaceStatus();
+                    isSpaceCheck = true;
+                }
+                //GenerateFlare();
+                if (timer == spreadDelay) {
+                   SpreadBlast(remainingWave, spreadDirection);
+                }
+                if (timer >= existTime) {
 
+                    Destroy(gameObject);
+                }
+                
+            }
             timer++;
+        }
+
+        void Update() {
             
         }
 
-        void OnTriggerEnter(Collider other) {
-            if (other.tag == "Player") {
-                Transform unitychan = other.transform;
-                while (unitychan.GetComponent<Unitychan>() == null) {
-                    unitychan = unitychan.parent;
+        void OnTriggerStay(Collider other) {
+            if (timer >= damageDelay) { 
+                if (other.tag == "Player") {
+                    Transform unitychan = other.transform;
+                    while (unitychan.GetComponent<Unitychan>() == null) {
+                        unitychan = unitychan.parent;
+                    }
+                    unitychan.GetComponent<Unitychan>().GetDamaged(false, 2);
                 }
-                unitychan.GetComponent<Unitychan>().GetDamaged(false, 2);
-            }
-            else if (other.tag == "Enemy") {
-                other.GetComponent<EnemyBody>().GetDamaged();
+                else if (other.tag == "Enemy") {
+                    other.GetComponent<EnemyBody>().GetDamaged();
+                }
             }
         }
         
@@ -82,9 +113,7 @@ namespace Uniboom.Player {
                 //Spread to a wall
                 Destroy(gameObject);
             }
-            else {
                 spaceObj = currentRoom.GetSpace((int)transform.localPosition.x, (int)transform.localPosition.z);
-            }
             if (spaceObj != null) {
                 if (spaceObj.tag == "Block") {
                     //Spread to a block
@@ -106,17 +135,23 @@ namespace Uniboom.Player {
                     }
                 }
             }
-
-            GetComponent<BoxCollider>().enabled = true;
+            else {
+                GenerateFlare();
+            }
         }
 
         private void GenerateFlare() {
+            /*
             for (int i = 0; i < flareCountArray[timer]; i++) {
                 Instantiate(flare, transform.position + new Vector3(Random.Range(0.1f, 0.9f),
                                                                     Random.Range(0.1f, 0.9f),
                                                                     Random.Range(0.1f, 0.9f)), transform.rotation);
                 //flareClone.parent = transform;
+              
             }
+             */
+            Transform flareClone = Instantiate(flare);
+            flareClone.position = transform.position + new Vector3(0.5f, 0.5f, 0.5f);
         }
 
         private void SpreadBlast(int wave, int direction) {

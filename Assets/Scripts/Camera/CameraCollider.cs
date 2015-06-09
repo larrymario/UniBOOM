@@ -11,17 +11,17 @@ namespace Uniboom.Camera {
         public Material brickTransMaterial;
 
         private BoxCollider boxCollider;
-        private ThirdPersonCamera camera;
+        private ThirdPersonCamera TPCamera;
 
         void Awake() {
             boxCollider = GetComponent<BoxCollider>();
-            camera = GetComponentInParent<ThirdPersonCamera>();
+            TPCamera = GetComponentInParent<ThirdPersonCamera>();
         }
 
         void Update() {
             if (Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0.01) {
-                boxCollider.size = new Vector3(0.05f, 0.05f, camera.getRadius() * 0.8f);
-                boxCollider.center = new Vector3(0f, 0f, camera.getRadius() / 2f);
+                boxCollider.size = new Vector3(0.05f, 0.05f, TPCamera.getRadius() * 0.8f);
+                boxCollider.center = new Vector3(0f, 0f, TPCamera.getRadius() / 2f);
             }
         }
 

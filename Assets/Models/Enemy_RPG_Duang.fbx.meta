@@ -8,12 +8,26 @@ ModelImporter:
     100000: //RootNode
     100002: joint1
     100004: pCylinder3
+    100006: group1
+    100008: polySurface2
+    100010: pPipe1
+    100012: transform1
     400000: //RootNode
     400002: joint1
     400004: pCylinder3
+    400006: group1
+    400008: polySurface2
+    400010: pPipe1
+    400012: transform1
     2300000: pCylinder3
+    2300002: polySurface2
+    2300004: pPipe1
     3300000: pCylinder3
+    3300002: polySurface2
+    3300004: pPipe1
     4300000: pCylinder3
+    4300002: polySurface2
+    4300004: pPipe1
     7400000: Take 001
     9500000: //RootNode
   materials:
@@ -31,7 +45,47 @@ ModelImporter:
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: joint1
+        weight: 1
+      - path: joint1/group1
+        weight: 1
+      - path: joint1/group1/pCylinder3
+        weight: 1
+      - path: joint1/group1/pCylinder3/polySurface2
+        weight: 1
+      - path: joint1/group1/pCylinder3/pPipe1
+        weight: 1
+      - path: joint1/group1/pCylinder3/transform1
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []

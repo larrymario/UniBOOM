@@ -6,7 +6,6 @@ namespace Uniboom.Director {
     public class AudioDirector : MonoBehaviour {
 
 
-
         private AudioSource BGMPlayer;
 
 
@@ -14,16 +13,22 @@ namespace Uniboom.Director {
             BGMPlayer.Play();
         }
 
+        public void FadeOutBGM() {
+            BGMPlayer.transform.GetComponent<BGMController>().FadeOut();
+        }
+
         void Awake() {
             BGMPlayer = GameObject.Find("Main_Camera").GetComponent<AudioSource>();
+            
         }
+
 
         void Start() {
 
         }
 
         void Update() {
-
+            
         }
 
     }

@@ -46,7 +46,7 @@ ModelImporter:
       name: Take 001
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 48
+      lastFrame: 36
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -70,15 +70,7 @@ ModelImporter:
         weight: 1
       - path: joint1
         weight: 1
-      - path: joint1/joint2
-        weight: 1
-      - path: joint1/joint2/joint3
-        weight: 1
-      - path: joint1/joint2/joint3/joint4
-        weight: 1
-      - path: joint1/joint2/joint3/joint4/joint5
-        weight: 1
-      - path: joint1/joint2/joint3/joint4/joint5/joint6
+      - path: joint2
         weight: 1
       - path: nurbsToPoly1
         weight: 1

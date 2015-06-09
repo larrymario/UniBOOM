@@ -16,15 +16,16 @@ namespace Uniboom.Player {
         public Material bombMatTrans;
         public MeshRenderer mesh;
 
-
         private StageDirector stageDirector;
         private Room currentRoom;
         private int timer;
-
+        private bool isPaused;
 
         public void Explode(int incomingDirection) {
             //Transform blastN = Instantiate(blast);
             //blastN.GetComponent<Blast>().setSpreadDirection(0);
+            //GetComponent<AudioSource>().Play();
+
             GenerateBlast(1, spreadDelay, 0);
             if (incomingDirection != 2) GenerateBlast(remainingWave, spreadDelay, 1);
             if (incomingDirection != 1) GenerateBlast(remainingWave, spreadDelay, 2);
@@ -36,23 +37,38 @@ namespace Uniboom.Player {
             Destroy(gameObject); 
         }
 
+        public void OnPauseGame() {
+            isPaused = true;
+        }
+
+        public void OnResumeGame() {
+            isPaused = false;
+        }
+
         void Awake() {
             stageDirector = GameObject.Find("Stage_Director").transform.GetComponent<StageDirector>();
             
         }
 
         void Start() {
+            stageDirector.OnPauseGameEvent += OnPauseGame;
+            stageDirector.OnResumeGameEvent += OnResumeGame;
+
+
             timer = 0;
             transform.SetParent(stageDirector.GetCurrentRoom().transform);
             currentRoom = stageDirector.GetCurrentRoom();
             currentRoom.SetSpace((int)transform.localPosition.x, (int)transform.localPosition.z, transform);
+            isPaused = false;
         }
 
         void FixedUpdate() {
-            if (timer == explodeDelay) {
-                Explode(0);
+            if (!isPaused) { 
+                if (timer == explodeDelay) {
+                    Explode(0);
+                }
+                timer++;
             }
-            timer++;
         }
 
         void OnTriggerExit(Collider other) {

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using Uniboom.Player;
 using Uniboom.Stage;
+using Uniboom.Camera;
 
 namespace Uniboom.Director { 
 
     public class StageDirector : MonoBehaviour {
 
         public bool debug;
+        public UnityEngine.Camera mainCamera;
         public List<Transform> itemList;
         public List<Transform> enemyList;
         public float brickExistProb;
@@ -15,6 +17,8 @@ namespace Uniboom.Director {
         public string nextStageName;
         public int minRoomEnemy;
         public int maxRoomEnemy;
+        public Vector3 towerCameraPos;
+        public Vector3 towerCameraRot;
 
         private Unitychan unitychan;
         private UIDirector uiDirector;
@@ -22,6 +26,11 @@ namespace Uniboom.Director {
         
         private GameState gameState;
         private int stateTimer;
+
+        public delegate void EventHandler();
+
+        public event EventHandler OnPauseGameEvent;
+        public event EventHandler OnResumeGameEvent;
 
         public GameState GetGameState() {
             return gameState;
@@ -49,7 +58,12 @@ namespace Uniboom.Director {
                 unitychan.transform.SetParent(room.transform);
                 room.SetActive();
                 this.currentRoom = room;
-                uiDirector.SetRoomName("Room " + room.GetPosition().x + "-" + room.GetPosition().y);
+                if (currentRoom.roomType == 1) { 
+                    uiDirector.SetRoomName("ROOM " + room.GetPosition().x + "-" + room.GetPosition().y);
+                }
+                else if (currentRoom.roomType == 2) {
+                    uiDirector.SetRoomName("BOSS ROOM");
+                }
             }
         }
 
@@ -58,9 +72,55 @@ namespace Uniboom.Director {
             return itemList[index];
         }
 
+        public void SetTowerPos() {
+            mainCamera.transform.position = towerCameraPos;
+            mainCamera.transform.eulerAngles = towerCameraRot;
+            mainCamera.transform.GetComponent<ThirdPersonCamera>().enabled = false;
+            unitychan.gameObject.SetActive(false);
+        }
+
+        public void LoadNextStage() {
+            
+            unitychan.SaveStatus();
+            Application.LoadLevel(nextStageName);
+        }
+
+        public void ReturnToTitle() {
+            //Time.timeScale = 1;
+            Application.LoadLevel("Title");
+        }
+
+        public void Pause() {
+            gameState = GameState.Paused;
+            unitychan.SetControllability(false);
+            //Time.timeScale = 0;
+            uiDirector.transform.GetComponent<Animator>().SetTrigger("Paused");
+            //BroadcastMessage("OnPauseGame", SendMessageOptions.DontRequireReceiver);
+            if (OnPauseGameEvent != null) {
+                OnPauseGameEvent();
+            }
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        public void Resume() {
+            gameState = GameState.Normal;
+            unitychan.SetControllability(true);
+            //Time.timeScale = 1;
+            uiDirector.transform.GetComponent<Animator>().SetTrigger("Resume");
+            //BroadcastMessage("OnResumeGame", SendMessageOptions.DontRequireReceiver);
+            if (OnResumeGameEvent != null) {
+                OnResumeGameEvent();
+            }
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+
         void Awake() {
             Random.seed = (int)System.DateTime.Now.ToBinary();
 
+            mainCamera = GameObject.Find("Main_Camera").transform.GetComponent<UnityEngine.Camera>();
             unitychan = GameObject.Find("SD_unitychan_generic").transform.GetComponent<Unitychan>();
             uiDirector = GameObject.Find("UI_Director").transform.GetComponent<UIDirector>();
         }
@@ -71,6 +131,7 @@ namespace Uniboom.Director {
             gameState = GameState.Prelude;
             stateTimer = 0;
 
+            /*
             if (debug) {
 
                 Cursor.visible = true;
@@ -78,14 +139,11 @@ namespace Uniboom.Director {
                 gameState = GameState.Normal;
                 unitychan.GetComponent<Unitychan>().SetControllability(true);
             }
-            
+            */
         }
 
         void Update() {
             switch (gameState) {
-                case GameState.Loading:
-
-                    break;
                 case GameState.Prelude:
                     /*
                     if (stateTimer < 50) {
@@ -103,9 +161,7 @@ namespace Uniboom.Director {
                     if (stateTimer == 0) {
                         unitychan.GetComponent<Unitychan>().SetControllability(true);
                         SetCurrentRoom(GameObject.Find("Room_7_7").GetComponent<Room>());
-                        gameState = GameState.Normal;
                     }
-
                     if (stateTimer < 100) {
                         stateTimer++;
                     }
@@ -116,17 +172,25 @@ namespace Uniboom.Director {
                 case GameState.Interlude:
 
                     break;
-                case GameState.Victory:
-
+                case GameState.Clear:
+                    if (stateTimer == 0) {
+                        unitychan.GetComponent<Unitychan>().SetControllability(false);
+                        uiDirector.transform.GetComponent<Animator>().SetTrigger("Clear");
+                    }
+                    if (stateTimer < 100) {
+                        stateTimer++;
+                    }
+                    
                     break;
                 case GameState.GameOver:
-                    if (stateTimer < 200) {
-
+                    if (stateTimer == 0) {
+                        unitychan.GetComponent<Unitychan>().SetControllability(false);
+                        uiDirector.transform.GetComponent<Animator>().SetTrigger("GameOver");
                     }
-                    else {
-                        
+                    if (stateTimer < 100) {
+                        stateTimer++;
                     }
-                    stateTimer++;
+                    
                     break;
             }
 
@@ -134,9 +198,16 @@ namespace Uniboom.Director {
             if (Input.GetKeyDown("r")) {
                 Application.LoadLevel(stageName);
             }
+            
             if (Input.GetKeyDown("escape")) {
-                Application.Quit();
+                if (gameState == GameState.Normal) { 
+                    Pause();
+                }
+                else if (gameState == GameState.Paused) {
+                    Resume();
+                }
             }
+            /*
             if (Input.GetKeyDown("e")) {
                 if (Cursor.lockState == CursorLockMode.Locked) {
                     Cursor.visible = true;
@@ -147,7 +218,7 @@ namespace Uniboom.Director {
                     Cursor.lockState = CursorLockMode.Locked;
                 }
             }
-            
+            */
 
         }
 
@@ -155,12 +226,11 @@ namespace Uniboom.Director {
     }
 
     public enum GameState {
-        Loading,
         Prelude,
         Normal,
         Interlude,
         Paused,
-        Victory,
+        Clear,
         GameOver
     }
 }
