@@ -26,4 +26,12 @@ http://unity-chan.com/contents/guideline/
 Unitychan is so CUTE
 
 ## Audio Material Source
-* [キラリきらめく](http://dova-s.jp/bgm/play2807.html), as Stage 5 BGM
+* [The Endless Fall](http://dova-s.jp/bgm/play3013.html) by Unish, as Title BGM
+* [トグルスイッチ](http://dova-s.jp/bgm/play3135.html) by かずち, as Stage BGM
+* [キラリきらめく](http://dova-s.jp/bgm/play2807.html) by yuki, as Stage BGM
+* [Delight](http://dova-s.jp/bgm/play3079.html) by 龍崎一, as Stage BGM
+* [ELIMINATE_LOCKED](http://dova-s.jp/bgm/play2838.html) by ISAo., as Stage BGM
+* [Escape](http://dova-s.jp/bgm/play2597.html) by スエノブ, as Stage BGM
+* [READY!](http://dova-s.jp/bgm/play2906.html) by ASKi, as Stage BGM
+* [Tomorrow](http://dova-s.jp/bgm/play1869.html) by ISAo., as Ending BGM
+* Sound Effect from [魔王魂](http://maoudamashii.jokersounds.com/)
