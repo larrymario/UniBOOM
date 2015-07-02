@@ -35,3 +35,7 @@ Unitychan is so CUTE
 * [READY!](http://dova-s.jp/bgm/play2906.html) by ASKi, as Stage BGM
 * [Tomorrow](http://dova-s.jp/bgm/play1869.html) by ISAo., as Ending BGM
 * Sound Effect from [魔王魂](http://maoudamashii.jokersounds.com/)
+
+## Demo & Release
+* [Demo Video](http://www.bilibili.com/video/av2423503/)
+* [Release Download](http://pan.baidu.com/s/1sj5I3wh), Password: m5fq
